@@ -1,0 +1,19 @@
+<div {{ attributes }}>
+  {# Keep the outer div whenever possible it is a nice way to ensure the presence of "attributes" #}
+  {% block breadcrumb_block %}
+    <div class="breadcrumb-content-inner">
+      <div class="dafr-breadcrumb-content">
+        <div class="block dafr-block-breadcrumb">
+          <div class="breadcrumb-style dafr-parallax-background" style="{{ custom_style }}">
+            <div class="breadcrumb-content-main">
+              <h2 class="page-title">{{ breadcrumb_title }}</h2>
+              {% block content %} {% endblock %}
+            </div>
+            <div class="dafr-parallax-inner skrollable skrollable-between" data-bottom-top="top: -80%;" data-top-bottom="top: 0%;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  {% endblock %}
+</div>

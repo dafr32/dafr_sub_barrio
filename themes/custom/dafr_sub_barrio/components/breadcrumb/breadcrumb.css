@@ -1,0 +1,67 @@
+[data-component-id="dafr_sub_barrio:breadcrumb"] {
+  /* @todo Add your styles here. */
+}
+
+.breadcrumb-content-inner .breadcrumb-content-main {
+  position: relative;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  z-index: 11;
+  padding: 110px 15px 95px;
+  text-align: left;
+}
+
+.breadcrumb-content-inner .page-title {
+  color: #fff;
+}
+
+.breadcrumb-content-inner .dafr-block-breadcrumb .page-title {
+  font-size: 42px;
+  text-align: left;
+  position: relative;
+  margin: 0 0 5px;
+}
+
+.breadcrumb-content-inner .dafr-block-breadcrumb .breadcrumb-links {
+  display: inline-block;
+  position: relative;
+  margin: 0 auto;
+}
+
+.breadcrumb-content-inner .dafr-block-breadcrumb .breadcrumb-links nav.breadcrumb {
+  background: none;
+  margin: 0;
+}
+
+.breadcrumb {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  padding: 0 0;
+  margin-bottom: 1rem;
+  list-style: none;
+}
+
+.breadcrumb-content-inner .dafr-block-breadcrumb .breadcrumb-links nav.breadcrumb ol {
+  list-style: none;
+  margin-bottom: 0 !important;
+  padding: 0;
+}
+.breadcrumb-content-inner .dafr-block-breadcrumb .breadcrumb-links nav.breadcrumb ol li {
+  float: left;
+  font-size: 16px;
+  font-weight: 500;
+  color: #e5e5e5;
+}
+
+.breadcrumb-content-inner .dafr-block-breadcrumb .breadcrumb-links nav.breadcrumb ol li a {
+  color: #e5e5e5;
+}
+
+
+body.hidden-breadcrumbs .breadcrumb-links {
+  display: none !important;
+}

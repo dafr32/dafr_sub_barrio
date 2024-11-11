@@ -1,0 +1,129 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for custom themer module.
+ */
+
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\FieldDefinition;
+use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Template\Attribute;
+use Drupal\Core\Form\FormStateInterface;
+use \Drupal\Core\Menu\MenuLinkInterface;
+use Drupal\Core\Menu\MenuLinkDefault;
+use Drupal\Core\Menu\MenuLinkContent;
+use Drupal\block\Entity\Block;
+use \Drupal\Core\File\FileSystemInterface;
+
+
+module_load_include('php','dafr_themer', 'includes/layout');
+
+/**
+ * Implements hook_preprocess_html().
+ */
+function dafr_themer_preprocess_html(&$variables) {
+    $path = \Drupal::service('path.current')->getPath();
+    $path_args = explode('/', $path);
+    if (isset($path_args[1]) && isset($path_args[2]) && ($path_args[1] == 'node') && (is_numeric($path_args[2]))) {
+       $node = \Drupal\node\Entity\Node::load($path_args[2]);
+       if($node && $node->hasField('dafr_node_class')){
+          $class_body = $node->get('dafr_node_class')->getValue();
+          if(isset($class_body) && !empty($class_body[0])) {
+               $variables['attributes']['class'][] = $class_body[0]['value'];
+          }
+       }
+       if($node && $node->hasField('dafr_box_layout')){
+          $box_layout = $node->get('dafr_box_layout')->getValue();
+          if(isset($box_layout) && !empty($box_layout[0])) {
+               $variables['attributes']['class'][] = $box_layout[0]['value'];
+          }
+       }
+    }
+}
+
+function dafr_themer_preprocess_page(&$variables) {
+    $path = \Drupal::service('path.current')->getPath();
+    $path_args = explode('/', $path);
+    if ($node = \Drupal::request()->attributes->get('node')) {
+      if(is_object($node)){
+          $variables['dafr_header'] = '';
+          if($node){
+            if($node->hasField('dafr_header')){
+                $dafr_header = $node->get('dafr_header')->value;
+                if($dafr_header) {
+                    $variables['dafr_header'] = $dafr_header;
+                }
+            }                
+          }
+          if($node->hasField('dafr_breadcrumb')){
+				 	$dafr_breadcrumb = $node->get('dafr_breadcrumb')->value;
+				 	if($dafr_breadcrumb && $dafr_breadcrumb == 'disable'){
+						if(isset($variables['page']['breadcrumb'])) unset($variables['page']['breadcrumb']);
+				 	}
+			  	}  
+       }
+    }
+}
+
+
+/**
+ * Additional submit handler for menu_link_content_form.
+ */
+function dafr_themer_form_menu_link_content_form_submit(array &$form, FormStateInterface $form_state) {
+    $values = $form_state->getValues();
+    $attributes = array();
+
+    foreach ($values['attributes'] as $attribute => $value) {
+       $value = trim($value);
+       if (!empty($value)) {
+          $attributes[$attribute] = $value;
+       }
+    }
+
+    $menuLinkEntity = _dafr_themer_get_menu_link_entity_from_form_state($form_state);
+    $options = $menuLinkEntity->link->first()->options;
+    $changed = FALSE;
+    if (empty($attributes)) {
+       if (!empty($options['attributes'])) {
+          unset($options['attributes']);
+          $changed = TRUE;
+       }
+    }
+    else {
+       $options['attributes'] = $attributes;
+       $changed = TRUE;
+    }
+
+    if ($changed) {
+       $menuLinkEntity->link->first()->options = $options;
+       $menuLinkEntity->save();
+    }
+}
+
+function _dafr_themer_get_menu_link_entity_from_form_state(FormStateInterface $form_state) {
+    $buildInfo = $form_state->getBuildInfo();
+    $menuLinkContentForm = $buildInfo['callback_object'];
+    return $menuLinkContentForm->getEntity();
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function dafr_themer_preprocess_block(&$variables) {
+    // Blocks coming from page manager widget does not have id.
+    if (!empty($variables['elements']['#id'])) {
+       $block = Block::load($variables['elements']['#id']);
+       if ($classes = $block->getThirdPartySetting('dafr_themer', 'classes')) {
+          $variables['attributes']['class'][] = $classes;
+       }
+    }
+}
+
+
+function dafr_themer_update_projects_alter(&$projects){
+	unset($projects['dafr_themer']);
+	unset($projects['Dafrthemer']);
+}
+
+

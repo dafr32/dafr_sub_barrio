@@ -1,0 +1,74 @@
+<header id="header" class="header-no_background">
+
+	{% if page.topbar %}
+	 	<div class="topbar topbar__three">
+			<div class="topbar__content header-default__topbar-content">
+				<div class="topbar__left">
+					<div class="topbar__left-content"> 
+						{{ page.topbar }}
+					</div>  
+				</div>
+				<div class="topbar__right">
+				 	<div class="topbar__right-content"> 
+						{% if page.topbar_right %}
+						  {{ page.topbar_right }}
+						{% endif %}
+				 	</div>  
+				</div>
+			</div>
+	 	</div>
+	{% endif %}
+
+	{% set class_sticky = '' %}
+	{% if sticky_menu == 1 %}
+		{% set class_sticky = 'gv-sticky-menu' %}
+	{% endif %}  
+
+	<div class="header-three__main {{ class_sticky }}">
+	 	<div class="header-three__content">
+			<div class="header-three__main-inner p-relative">
+				
+				{% if page.header or page.primary_menu or page.header_form %}
+					<nav{{ navbar_attributes }}>
+						{% if container_navbar %}
+						<div class="container">
+						{% endif %}
+							
+							{{ page.header }}
+
+							{% if page.primary_menu or page.header_form %}
+							<button class="navbar-toggler collapsed" type="button" data-bs-toggle="{{ navbar_collapse_btn_data }}" data-bs-target="#CollapsingNavbar" aria-controls="CollapsingNavbar" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+							<div class="{{ navbar_collapse_class }}" id="CollapsingNavbar">
+								{% if navbar_offcanvas %}
+								<div class="offcanvas-header">
+									<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+								</div>
+								<div class="offcanvas-body justify-content-{{ align_header }}">
+								{% endif %}
+								{{ page.primary_menu }}
+								{% if page.header_form %}
+								<div class="form-inline navbar-form justify-content-start">
+									{{ page.header_form }}
+								</div>
+								{% endif %}
+								{% if navbar_offcanvas %}
+								</div>
+								{% endif %}
+							</div>
+							{% endif %}
+							{% if sidebar_collapse %}
+							<button class="navbar-toggler navbar-toggler-left collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#CollapsingLeft" aria-controls="CollapsingLeft" aria-expanded="false" aria-label="Toggle navigation"></button>
+							{% endif %}
+						{% if container_navbar %}
+						</div>
+						{% endif %}
+					</nav>
+				{% endif %}
+				
+				
+			</div>
+	 	</div>
+	</div>
+
+</header>
+

@@ -1,0 +1,18 @@
+{{ attach_library('bootstrap_barrio/node') }}
+
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    node.isPromoted() ? 'node--promoted',
+    node.isSticky() ? 'node--sticky',
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'clearfix',
+    'd-flex align-items-center h-100',
+  ]
+%}
+<div{{ attributes.addClass(classes) }}>
+    <img src="{{ file_url(node.field_image.entity.uri.value)}}" style="height:{{node.field_height.value}}; width: auto">
+  
+</div>

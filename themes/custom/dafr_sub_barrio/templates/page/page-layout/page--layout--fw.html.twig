@@ -1,0 +1,91 @@
+
+<div id="page-wrapper">
+  <div id="page">
+    
+    {% include header_skin %}
+  
+    {% if page.highlighted %}
+      <div class="highlighted">
+        <aside class="{{ container }} section clearfix" role="complementary">
+          {{ page.highlighted }}
+        </aside>
+      </div>
+    {% endif %}
+    {% if page.featured_top %}
+      {% block featured %}
+        <div class="featured-top">
+          <aside class="featured-top__inner section {{ container }} clearfix" role="complementary">
+            {{ page.featured_top }}
+          </aside>
+        </div>
+      {% endblock %}
+    {% endif %}
+
+    <div id="main-wrapper" class="layout-main-wrapper clearfix">
+      {% block content %}
+        <div id="main" class="container-full container-bg">          
+          <div class="row row-offcanvas row-offcanvas-left clearfix">
+              <main{{ content_attributes }}>
+                <section class="section">
+                  <a href="#main-content" id="main-content" tabindex="-1"></a>
+                  {{ page.content }}
+                </section>
+              </main>            
+          </div>
+        </div>
+      {% endblock %}
+    </div>
+	
+    {% if page.featured_bottom_first or page.featured_bottom_second or page.featured_bottom_third %}
+      <div class="featured-bottom">
+        <aside class="{{ container }} clearfix" role="complementary">
+          {{ page.featured_bottom_first }}
+          {{ page.featured_bottom_second }}
+          {{ page.featured_bottom_third }}
+        </aside>
+      </div>
+    {% endif %}
+
+
+    <footer class="site-footer">
+      {% block footer %}        
+        <div class="{{ container }}">
+          {% if page.footer_top %}
+            <div class="site-footer__top clearfix">
+              {{ page.footer_top }}
+            </div>
+          {% endif %}
+
+          {% if page.footer_first or page.footer_second or page.footer_third or page.footer_fourth %}
+            <div class="site-footer__content clearfix">
+              {{ page.footer_first }}
+              {{ page.footer_second }}
+              {{ page.footer_third }}
+              {{ page.footer_fourth }}
+            </div>
+          {% endif %}
+          
+          {% if page.footer_bottom %}
+            <div class="site-footer__bottom">
+              {{ page.footer_fifth }}
+            </div>
+          {% endif %}
+
+          <div class="site-footer__copyright">
+            <div class="row">
+              <div class="col-12 col-md-6 copyright">
+                {{ copyright }}
+              </div>
+              <div class="col-12 col-md-6 abel">                
+                 {% if abel %}
+                    <a href="https://www.abel-it.pl" target="_blank" alt="Abel-IT.pl" ><img src="/themes/custom/dafr_sub_barrio/abel.svg"></a>
+                  {% endif %}
+              </div>
+            </div>
+          </div>
+
+        </div>
+      {% endblock %}
+    </footer>
+  </div>
+</div>

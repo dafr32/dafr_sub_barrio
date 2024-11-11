@@ -1,0 +1,261 @@
+/**
+ * @file
+ * Subtheme specific CSS.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Oswald:wght@200..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+ /* font-family: "Figtree", sans-serif;
+ font-optical-sizing: auto; */
+
+
+ :root {
+    --primary-color: #114694;
+    --font-primary: "Figtree", sans-serif 
+}
+
+html {
+    font-size: 17px;
+}
+
+body {
+    background: #fff;
+    font-size: 1rem ;
+    letter-spacing: 0 !important;
+    font-family: var(--font-primary) !important;
+    font-optical-sizing: auto; 
+}
+
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    letter-spacing: 1px;
+}
+
+a, a:link {
+    text-decoration: none;
+}
+
+.p-relative {
+    position: relative !important;
+}
+
+/* .full-width {
+    width: calc(100vw - 10px);
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+
+} */
+
+/* containers */
+
+@media screen and (min-width: 1688px) {
+    .container-xxl {
+        max-width: 1560px;
+    }
+}
+@media screen and (min-width: 1980px) {
+    .container-xxl {
+        max-width: 1680px;
+    }
+}
+
+
+
+div#main-wrapper {
+    position: relative;
+    overflow-x: hidden;
+}
+
+.sticky-top {
+    z-index: 100 !important;
+}
+
+.site-name-slogan a {
+    text-decoration: none;
+}
+
+.card-group img {
+    margin: 0;
+    width: 100%;
+    height: auto;
+}
+
+.card-group .field--type-image {
+    margin: 0
+}
+
+.slick {
+    width: 100%;
+}
+
+.slick>div {
+    margin: 0 15px;
+}
+
+/* // --------------------------------------------- */
+/* // PAGE  */
+
+
+/* // --------------------------------------------- */
+/* // HEADERS */
+/* // --------------------------------------------- */
+
+.header-no_background {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 9;
+    -webkit-box-shadow: 0px 1px 0 0 rgba(255, 255, 255, 0.2);
+    box-shadow: 0px 1px 0 0 rgba(255, 255, 255, 0.2);
+}
+
+.header-no_background #navbar-main {
+    background-color: transparent !important;    
+}
+
+.header-no_background .topbar__three {
+    background: url("../images/pattern-topbar.png") repeat top left var(--body-link-color);
+}
+
+
+/* // NAVBAR */
+
+body {
+    
+}
+
+.offcanvas.offcanvas-start {
+    width: 100vw !important;
+    background: var(--primary-color);
+    .menu--main li a {
+        color: #fff;
+        font-size: 3rem;
+    }
+
+    ul.nav.navbar-nav {
+        display: grid;
+        padding: 5rem;
+        grid-template-columns: 1fr 1fr;
+
+        .nav-item {
+            border-bottom: 3px solid #fff;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        ul.nav.navbar-nav {
+            display: grid;
+            padding: 5rem;
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+.offcanvas-header img {
+    width: 100px;
+    height: auto;
+}
+
+.header-three {
+     position: absolute;
+     left: 0;
+     top: 0;
+     width: 100%;
+     z-index: 9;
+     -webkit-box-shadow: 0px 1px 0 0 rgba(255, 255, 255, 0.2);
+     box-shadow: 0px 1px 0 0 rgba(255, 255, 255, 0.2);
+}
+
+ /* --------------------------------------------- */
+/* PAGE TITLE  */
+ /* --------------------------------------------- */
+body.hidden-title .node--view-mode-full .header-title {
+    display: none !important;
+}
+
+
+
+
+ /* --------------------------------------------- */
+/* FOOTER  */
+/* --------------------------------------------- */
+.site-footer {
+   
+   
+}
+
+
+/* // --------------------------------------------- */
+/* // Landing Page */
+/* // --------------------------------------------- */
+.node--type-landing-page {
+    .node__content {
+        margin-top: 0;
+    }
+}
+
+/* // --------------------------------------------- */
+/* // About */
+/* // --------------------------------------------- */
+#about {
+    padding: 3rem 6rem;
+
+    p {
+        font-size: 2rem;
+        line-height: 2.5rem;
+        margin-bottom: 3rem;
+    }
+}
+
+/* // --------------------------------------------- */
+/* // Partners view */
+/* // --------------------------------------------- */
+#partners {
+    margin: 60px 0;
+
+    h2 {
+        margin-bottom: 40px;
+    }
+}
+
+.view-id-partners.view-display-id-block_1 {
+
+    .view-content.row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+
+        .grid-item {
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            img {
+                object-fit: contain;
+            }
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        .view-content.row {
+            .grid-item {
+                width: 100%;
+                height: auto;
+            }
+        }
+    }
+
+}

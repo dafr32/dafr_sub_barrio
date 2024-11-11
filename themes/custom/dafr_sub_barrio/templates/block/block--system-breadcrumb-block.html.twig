@@ -1,0 +1,11 @@
+<div class="w-100">
+	{% block content %}
+		{% embed 'dafr_sub_barrio:breadcrumb' with {
+			attributes: create_attribute(), 
+		} %}
+			{% block content %}
+				{{ content }}
+			{% endblock %}
+		{% endembed %}
+	{% endblock %}
+</div>

@@ -1,0 +1,41 @@
+
+	{% block footer %}
+		<div class="{{ container }}">
+			{% if page.footer_top %}
+				<div class="site-footer__top clearfix">
+					{{ page.footer_top }}
+				</div>
+			{% endif %}
+
+			{% if page.footer_first or page.footer_second or page.footer_third or page.footer_fourth %}
+				<div class="site-footer__content clearfix">
+					{{ page.footer_first }}
+					{{ page.footer_second }}
+					{{ page.footer_third }}
+					{{ page.footer_fourth }}
+				</div>
+			{% endif %}
+
+			{% if page.footer_bottom %}
+				<div class="site-footer__bottom">
+					{{ page.footer_fifth }}
+				</div>
+			{% endif %}
+
+			<div class="site-footer__copyright">
+				<div class="row">
+					<div class="col-12 col-md-6 copyright">
+						{{ copyright }}
+					</div>
+					<div class="col-12 col-md-6 abel">
+						{% if abel %}
+							<a href="https://www.abel-it.pl" target="_blank" alt="Abel-IT.pl"><img src="../{{theme_path}}/abel.svg"></a>
+
+						{% endif %}
+					</div>
+				</div>
+			</div>
+
+		</div>
+	{% endblock %}
+

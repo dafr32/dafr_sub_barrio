@@ -1,0 +1,6 @@
+name: 'Custom DAFR Themer'
+type: module
+description: 'Custom DAFR themer'
+package: Dafr
+core_version_requirement: ^10 || ^11
+version: '1.0.0'

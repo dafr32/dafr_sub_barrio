@@ -65,9 +65,14 @@
       </div>
     {% endif %}
 
-  <footer class="site-footer">
-      {% include '@dafr_sub_barrio/page/footer.html.twig' %}
-  </footer>
+    {% if not dafr_footer or dafr_footer == '' or dafr_footer != 'disable' %}
+      <footer class="site-footer">
+        {% include '@dafr_sub_barrio/page/footer.html.twig' %}
+      </footer>
+    {% end
+    if %}
+
+
 
   </div>
 </div>

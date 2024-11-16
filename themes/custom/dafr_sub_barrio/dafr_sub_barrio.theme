@@ -104,6 +104,7 @@ function dafr_sub_barrio_preprocess_page(&$variables) {
 
   //Header setting -----------
     $header = 'header';
+    $footer = 'footer';  
     if(theme_get_setting('default_header')){
       $header = theme_get_setting('default_header');
     }
@@ -115,10 +116,14 @@ function dafr_sub_barrio_preprocess_page(&$variables) {
     if(isset($variables['dafr_header']) && $variables['dafr_header'] && $variables['dafr_header']!='_none' ){
       $header = $variables['dafr_header'];
     }    
+
+    if(isset($variables['dafr_footer']) && $variables['dafr_footer'] && $variables['dafr_footer']!='_none' ){
+      $footer = $variables['dafr_footer'];
+    }
     
     $header_skin = '';
-    if($sub_theme){
-            
+
+    if($sub_theme){            
       $theme_path_sub = \Drupal::service('extension.list.theme')->getPath($sub_theme);      
       if(file_exists($theme_path_sub . '/templates/page/' . trim($header) . '.html.twig')){         
         $header_skin  = $theme_path_sub . '/templates/page/' . trim($header) . '.html.twig';        

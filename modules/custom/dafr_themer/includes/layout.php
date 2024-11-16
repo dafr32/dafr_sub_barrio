@@ -18,7 +18,7 @@ function dafr_themer_form_node_form_alter(&$form, \Drupal\Core\Form\FormStateInt
       '#type'   => 'details',
       '#title'  => t('Node Settings'),
       '#group'  => 'advanced',
-      '#open'   => False,
+      '#open'   => TRUE,
       '#access' => TRUE,
       '#attributes' => array('class' => array('node-class-form')),
    );
@@ -32,12 +32,12 @@ function dafr_themer_form_node_form_alter(&$form, \Drupal\Core\Form\FormStateInt
          $node_id = $node->id();
       }
    }
-
-   $form['dafr_node_class']['#group']           = 'dafr_node_settings';
+ 
    $form['dafr_node_layout']['#group']          = 'dafr_node_settings';
-   $form['dafr_header']['#group']               = 'dafr_node_settings';
-   $form['dafr_box_layout']['#group']           = 'dafr_node_settings';
+   $form['dafr_header']['#group']               = 'dafr_node_settings';   
    $form['dafr_breadcrumb']['#group']           = 'dafr_node_settings';
+   $form['dafr_footer']['#group']               = 'dafr_node_settings';      
+   $form['dafr_node_class']['#group']           = 'dafr_node_settings';
 }
 
 /**
@@ -84,12 +84,23 @@ function dafr_themer_entity_base_field_info(EntityTypeInterface $entity_type) {
          'weight'  => 3,
          ))
          ->setDisplayConfigurable('form', TRUE);
+      
+      $fields['dafr_footer'] = BaseFieldDefinition::create('list_string')
+         ->setSetting('allowed_values', [            
+            'disable'   => 'Disable'
+         ])
+         ->setLabel(t('Footer'))
+         ->setDisplayOptions('form', array(
+            'type'    => 'options_select',
+            'weight'  => 4,
+         ))
+         ->setDisplayConfigurable('form', TRUE);  
 
       $fields['dafr_node_class'] = BaseFieldDefinition::create('string')
          ->setLabel(t('CSS class(es)'))
          ->setDisplayOptions('form', array(
             'type'    => 'string_textfield',
-            'weight'  => 4,
+            'weight'  =>5,
          ))
          ->setDisplayConfigurable('form', TRUE);
       

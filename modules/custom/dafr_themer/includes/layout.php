@@ -57,19 +57,7 @@ function dafr_themer_entity_base_field_info(EntityTypeInterface $entity_type) {
             'type'    => 'options_select',
             'weight'  => 1,
          ))
-         ->setDisplayConfigurable('form', TRUE);
-
-      $fields['dafr_breadcrumb'] = BaseFieldDefinition::create('list_string')
-         ->setSetting('allowed_values', [
-            'enable'    => 'Enable',
-            'disable'   => 'Disable'
-         ])
-         ->setLabel(t('Breadcrumb settings'))
-         ->setDisplayOptions('form', array(
-            'type'    => 'options_select',
-            'weight'  => 2,
-         ))
-         ->setDisplayConfigurable('form', TRUE);  
+         ->setDisplayConfigurable('form', TRUE);     
 
       $fields['dafr_header'] = BaseFieldDefinition::create('list_string')
          ->setSetting('allowed_values', [
@@ -81,10 +69,22 @@ function dafr_themer_entity_base_field_info(EntityTypeInterface $entity_type) {
          ->setLabel(t('Header'))
          ->setDisplayOptions('form', array(
          'type'    => 'options_select',
-         'weight'  => 3,
+         'weight'  => 2,
          ))
          ->setDisplayConfigurable('form', TRUE);
       
+      $fields['dafr_breadcrumb'] = BaseFieldDefinition::create('list_string')
+         ->setSetting('allowed_values', [
+            'enable'    => 'Enable',
+            'disable'   => 'Disable'
+         ])
+         ->setLabel(t('Breadcrumb settings'))
+         ->setDisplayOptions('form', array(
+            'type'    => 'options_select',
+            'weight'  => 3,
+         ))
+         ->setDisplayConfigurable('form', TRUE);   
+
       $fields['dafr_footer'] = BaseFieldDefinition::create('list_string')
          ->setSetting('allowed_values', [            
             'disable'   => 'Disable'

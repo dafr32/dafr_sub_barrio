@@ -1,0 +1,131 @@
+
+.img-animate {
+    figure {
+        width: 100%;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        background: #fff;
+        overflow: hidden;
+        position: relative;
+    }
+    img {
+        margin: 0;
+    }
+}
+
+/* Rotate */
+.img-animate-Rotate {
+    figure img {
+    -webkit-transform: rotate(15deg) scale(1.4);
+    transform: rotate(15deg) scale(1.4);
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;    
+    }
+    figure:hover img {
+        -webkit-transform: rotate(0) scale(1);
+        transform: rotate(0) scale(1);
+    }
+}
+
+
+
+/* Shine */
+.img-animate-Shine {
+    figure::before {
+        position: absolute;
+        top: 0;
+        left: -75%;
+        z-index: 2;
+        display: block;
+        content: '';
+        width: 50%;
+        height: 100%;
+        background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,.3) 100%);
+        background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,.3) 100%);
+        -webkit-transform: skewX(-25deg);
+        transform: skewX(-25deg);
+    }
+    figure:hover::before {
+        -webkit-animation: shine .75s;
+        animation: shine .75s;
+    }
+}
+
+@-webkit-keyframes shine {
+	100% {
+		left: 125%;
+	}
+}
+@keyframes shine {
+	100% {
+		left: 125%;
+	}
+}
+
+
+/* Opacity #2 */
+.img-animate-Opacity figure {
+	background: #ffcd45;
+}
+.img-animate-Opacity figure img {
+	opacity: 1;
+	-webkit-transition: .3s ease-in-out;
+	transition: .3s ease-in-out;
+}
+.img-animate-Opacity figure:hover img {
+	opacity: .5;
+}
+
+
+/* Courtine */
+.img-animate-Courtine figure figcaption {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    -webkit-transition: opacity 0.5s ease-out, -webkit-transform 0.4s ease-out;
+    transition: opacity 0.5s ease-out, -webkit-transform 0.4s ease-out;
+    -o-transition: opacity 0.5s ease-out, transform 0.4s ease-out;
+    transition: opacity 0.5s ease-out, transform 0.4s ease-out;
+    transition: opacity 0.5s ease-out, transform 0.4s ease-out, -webkit-transform 0.4s ease-out;
+    -webkit-transform: translateY(-101%);
+    -ms-transform: translateY(-101%);
+    transform: translateY(-101%);
+    color: white;
+    font-size: 1em;
+    margin: 0;
+    padding: 15px;
+    padding-bottom: 18px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-flow: column nowrap;
+    flex-flow: column nowrap;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-line-pack: center;
+    align-content: center;
+    -webkit-transition: color 0.2s ease-out;
+    -o-transition: color 0.2s ease-out;
+    transition: color 0.2s ease-out;
+    background: linear-gradient(135deg, rgba(255, 8, 61, 0.407), rgba(96, 1, 1, 0.963));
+    -webkit-transition: transform 0.5s ease, -webkit-transform 0.5s ease;
+    transition: transform 0.5s ease-out, -webkit-transform 0.4s ease-out;
+    -o-transition: transform 0.5s ease-out, transform 0.4s ease-out;
+}
+
+.img-animate-Courtine figure:hover figcaption {
+    opacity: 1;
+    -webkit-transform: translateY(0%);
+    -ms-transform: translateY(0%);
+    transform: translateY(0%);
+}

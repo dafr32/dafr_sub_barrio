@@ -1,0 +1,47 @@
+{#
+/**
+ * @file
+ * Theme override of an image.
+ *
+ * Available variables:
+ * - attributes: HTML attributes for the img tag.
+ * - style_name: (optional) The name of the image style applied.
+ *
+ * @see template_preprocess_image()
+ */
+#}
+
+{%
+set classes_animation = 'img-animate img-animate-Courtine' %}
+
+
+{%
+set classes = [
+  style_name ? 'image-style-' ~ style_name|clean_class,
+]
+%}
+
+
+{% embed "dafr_sub_barrio:dafr_owl_gallery" with  {
+    attributes: create_attribute(),
+    } 
+%} 
+  {% block content %}  
+			{%- for item in items -%}
+				<div class="item">
+					{{ item.content }}               
+				</div>
+			{%- endfor -%}
+  {% endblock %}
+{% endembed %}
+
+{# <div{{attributes}}>
+	{% if items|length < 2 %}
+		{%- for item in items -%}
+			<div class="item">
+				{{ item.content }}
+		{%- endfor -%}
+	{% else %}
+
+	{% endif %}
+</div> #}

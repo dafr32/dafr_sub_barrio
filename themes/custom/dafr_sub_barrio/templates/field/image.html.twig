@@ -1,0 +1,32 @@
+{#
+/**
+ * @file
+ * Theme override of an image.
+ *
+ * Available variables:
+ * - attributes: HTML attributes for the img tag.
+ * - style_name: (optional) The name of the image style applied.
+ *
+ * @see template_preprocess_image()
+ */
+#}
+
+{%
+set classes_animation = 'img-animate img-animate-Courtine' %}
+
+
+{%
+set classes = [
+  style_name ? 'image-style-' ~ style_name|clean_class,
+]
+%}
+
+
+<div class="{{ classes_animation }}">
+  <figure>
+    <img{{ attributes.addClass(classes) }} />
+    {% if attributes.title %}
+      <figcaption> {{ attributes.title}}    </figcaption>
+    {% endif %}    
+  </figure>  
+</div>

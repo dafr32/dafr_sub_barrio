@@ -9,6 +9,10 @@ libraries:
   - dafr_sub_barrio/bootstrap_cdn
   - dafr_sub_barrio/global-styling
   - dafr_sub_barrio/aos
+  - dafr_sub_barrio/owl_carousel
+
+libraries-override:
+  blazy_photoswipe/load: dafr_sub_barrio/blazy_photoswipe_override
 
 regions:
   top_header: 'Top header'
@@ -19,15 +23,13 @@ regions:
   secondary_menu: 'Secondary menu'
   page_top: 'Page top'
   page_bottom: 'Page bottom'
-  highlighted: Highlighted
-  featured_top: 'Featured top'
   breadcrumb: Breadcrumb
+  highlighted: Highlighted
+  featured_top: 'Featured top'  
   content: Content
   sidebar_first: 'Sidebar first'
   sidebar_second: 'Sidebar second'
-  featured_bottom_first: 'Featured bottom first'
-  featured_bottom_second: 'Featured bottom second'
-  featured_bottom_third: 'Featured bottom third'
+  featured_bottom: 'Featured bottom'
   footer_top: 'Footer top'
   footer_first: 'Footer first'
   footer_second: 'Footer second'

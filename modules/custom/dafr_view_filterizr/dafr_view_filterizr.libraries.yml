@@ -1,0 +1,12 @@
+dafr_view_filterizr_library:
+  version: 1.x
+  css:
+    theme:
+      css/dafr_view_filterizr.css: {}
+  js:
+    js/filterizr_init.js: {}
+    https://cdnjs.cloudflare.com/ajax/libs/filterizr/2.2.4/jquery.filterizr.min.js: { type: external }
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupalSettings

@@ -23,6 +23,7 @@
         </div>
       {% endblock %}
     {% endif %}
+
     <div id="main-wrapper" class="layout-main-wrapper clearfix">
       {% block content %}        
         {% if container_main %}
@@ -55,12 +56,11 @@
             </div>
       {% endblock %}
     </div>
-    {% if page.featured_bottom_first or page.featured_bottom_second or page.featured_bottom_third %}
+   
+    {% if page.featured_bottom %}
       <div class="featured-bottom">
         <aside class="{{ container }} clearfix" role="complementary">
-          {{ page.featured_bottom_first }}
-          {{ page.featured_bottom_second }}
-          {{ page.featured_bottom_third }}
+          {{ page.featured_bottom }}        
         </aside>
       </div>
     {% endif %}
@@ -69,10 +69,7 @@
       <footer class="site-footer">
         {% include '@dafr_sub_barrio/page/footer.html.twig' %}
       </footer>
-    {% end
-    if %}
-
-
+    {% endif %}
 
   </div>
 </div>

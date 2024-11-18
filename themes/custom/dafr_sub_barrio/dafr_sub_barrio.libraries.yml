@@ -5,8 +5,11 @@ global-styling:
     js/custom.js: {}
   css:
     component:
-      css/style.css: {weight: 10}
+      css/animate.css: {}
+      css/site-footer.css: {}
       css/colors.css: {weight: 9}      
+      css/style.css: {weight: 10}
+      
 bootstrap:
   js:
     /libraries/popper.js/dist/umd/popper.min.js: { weight: -19 }
@@ -36,7 +39,31 @@ color.preview:
 
 aos:
   js:
-    js/aos.js: { weight: -5 }
+    libraries/aos/aos.js: { weight: -5 }
   css:
     component:
-      css/aos.css: {}
+      libraries/aos/aos.css: {}
+
+owl_carousel:
+  version: 1.x
+  css:
+    theme:
+      libraries/owlcarousel/owl.carousel.min.css: {}
+  js:
+    libraries/owlcarousel/owl.carousel.min.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/once
+
+blazy_photoswipe_override:
+  js:
+    libraries/blazy_photoswipe/blazy.photoswipe.override.js: {}
+    libraries/blazy_photoswipe/blazy.photoswipe5.min.js: {}
+  css:
+    theme:
+      css/blazy.photoswipe.theme.css: {}
+  dependencies:
+    - blazy/dblazy
+    - blazy/media
+    - blazy_photoswipe/photoswipe

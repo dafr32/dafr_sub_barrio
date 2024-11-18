@@ -72,8 +72,14 @@ a, a:link {
 }
 
 
+#page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
 
 div#main-wrapper {
+    flex: 1;
     position: relative;
     overflow-x: hidden;
 }
@@ -112,6 +118,19 @@ div#main-wrapper {
 /* // HEADERS */
 /* // --------------------------------------------- */
 
+
+.header-three {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 9;
+    -webkit-box-shadow: 0px 1px 0 0 rgba(255, 255, 255, 0.2);
+    box-shadow: 0px 1px 0 0 rgba(255, 255, 255, 0.2);
+}
+
+/* --------------- */
+
 .header-no_background {
     position: absolute;
     left: 0;
@@ -131,53 +150,35 @@ div#main-wrapper {
 }
 
 
-/* // NAVBAR */
 
-body {
-    
-}
 
+/* // --------------------------------------------- */
+/* NAVBAR */
+/* // --------------------------------------------- */
 .offcanvas.offcanvas-start {
-    width: 100vw !important;
-    background: var(--primary-color);
+    /* width: 100vw !important; */
+    background: #222;
     .menu--main li a {
         color: #fff;
-        font-size: 3rem;
+        font-size: 1.2rem;
+        text-transform: uppercase;
     }
 
-    ul.nav.navbar-nav {
-        display: grid;
-        padding: 5rem;
-        grid-template-columns: 1fr 1fr;
-
-        .nav-item {
-            border-bottom: 3px solid #fff;
-        }
-    }
 
     @media screen and (max-width: 768px) {
-        ul.nav.navbar-nav {
-            display: grid;
-            padding: 5rem;
-            grid-template-columns: 1fr;
+        .menu--main li a {
+            color: #fff;
+            font-size: 1.4rem;
         }
     }
 }
 
 .offcanvas-header img {
-    width: 100px;
+    width: 50px;
     height: auto;
 }
 
-.header-three {
-     position: absolute;
-     left: 0;
-     top: 0;
-     width: 100%;
-     z-index: 9;
-     -webkit-box-shadow: 0px 1px 0 0 rgba(255, 255, 255, 0.2);
-     box-shadow: 0px 1px 0 0 rgba(255, 255, 255, 0.2);
-}
+
 
  /* --------------------------------------------- */
 /* PAGE TITLE  */
@@ -193,7 +194,19 @@ body.hidden-title .node--view-mode-full .header-title {
 /* FOOTER  */
 /* --------------------------------------------- */
 .site-footer {
-   
+    .site-footer__copyright {
+        .abel {
+            color: #aaaaaa7d;
+            font-size: 0.9rem;
+            padding-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: end;
+            img {
+                height: 30px;
+            }
+        }
+    }
    
 }
 

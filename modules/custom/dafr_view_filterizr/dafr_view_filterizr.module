@@ -1,0 +1,145 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for dafr_view_Filterizr module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Render\Markup;
+use Drupal\node\Entity\Node;
+use Drupal\Core\Language\LanguageInterface;
+use Drupal\taxonomy\Entity\Term;
+
+/**
+ * Implements hook_page_attachments().
+ * Adds Filterizr library to all pages.
+ */
+
+// dafr_view_filterizr
+
+
+/**
+ * Implements hook_theme().
+ */
+function dafr_theme() {
+  return [
+    'views_view_dafr_filterizr' => [
+      'variables' => [],
+    ]
+  ];
+}
+
+
+function dafr_view_filterizr_page_attachments(array &$attachments) {
+  // Attach the library to all pages or specific routes.
+  $attachments['#attached']['library'][] = 'dafr_view_filterizr/dafr_view_filterizr_library';
+}
+
+
+/**
+ * Default template: views_view_dafr_filterizr.html.twig.
+ */
+function template_preprocess_views_view_dafr_view_filterizr(&$variables) {
+  $_id = dafr_view_random_id();
+  $handler = $variables['view']->style_plugin;
+
+  $settings = $handler->options;
+  
+  $taxonomy = (isset($settings['taxonomy']) && $settings['taxonomy']) ? $settings['taxonomy'] : '';
+  $el_class = (isset($settings['el_class']) && $settings['el_class']) ? $settings['el_class'] : '';
+  $col = (isset($settings['columns']) && $settings['columns']) ? $settings['columns'] : 3;    
+  $variables['attributes']['class'][] = $el_class;
+  $show_all = (isset($settings['show_all'])) ? (bool)$settings['show_all'] : TRUE;
+
+  $xclass = '';
+  if($col == '1' )
+    $xclass = 'col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12';
+  elseif ($col == '2')
+    $xclass = 'col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12';
+  elseif ($col == '3')
+    $xclass = 'col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-12';
+  elseif ($col == '4')
+    $xclass = 'col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-12';
+  elseif ($col == '6')
+    $xclass = 'col-xl-2 col-lg-2 col-md-2 col-sm-6 col-xs-6';
+  else
+    $xclass = 'col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-12';
+
+  $variables['column'] = $col;
+  
+  $langcode = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+
+  $terms_tmp = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree($taxonomy);
+  
+  $terms = array();
+
+foreach ($terms_tmp as $key => $value) {
+    $taxonomy_term_load = Term::load($value->tid);
+    if(($taxonomy_term_load->hasTranslation($langcode))){
+    $taxonomy_term = $taxonomy_term_load->getTranslation($langcode);
+    $value->name = $taxonomy_term->getName();        
+    }
+    $terms[] = $value;
+}
+
+foreach ($variables['view']->result as $key => $result) {
+    // Pobranie obiektu węzła artykułu
+    $node = Node::load($result->nid);
+    if ($node->hasField('field_kolor') && !$node->get('field_kolor')->isEmpty()) {
+        // $terms = $node->get('field_kolor')->referencedEntities();
+        $term_ids = $node->get('field_kolor')->getValue();
+        if (!empty($term_ids)) {
+            // Załóżmy, że jest tylko jeden termin w polu
+            $term_id = $term_ids[0]['target_id'];
+            $term = Term::load($term_id);
+
+            // Pobranie nazwy terminu
+            $term_name = $term->getName();
+
+            // Pobranie tłumaczenia terminu, jeśli istnieje
+            $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+            if ($term->hasTranslation($langcode)) {
+                $term_name = $term->getTranslation($langcode)->getName();
+            }
+
+            // Ustawienie kategorii jako nazwy terminu
+            $itemCategory = $term_name;
+        }
+    }    
+    $item = \Drupal::service('renderer')->render($variables['rows'][$key]);
+    
+    $variables['rows'][$key] = '<div class="filtr-item '. "{$xclass}" .'" data-category="'.$itemCategory.'">' . $item . '</div>';
+}
+
+
+ 
+  $variables['terms'] = $terms;
+  $variables['show_all'] = $show_all;
+  $variables['pid'] = $_id;
+
+
+  template_preprocess_views_view_unformatted($variables);
+}
+
+function dafr_view_get_all_taxonomy(){
+  $list = array();
+  $vocabularies = \Drupal\taxonomy\Entity\Vocabulary::loadMultiple();
+  foreach($vocabularies as $taxonomy){
+    $list[$taxonomy->get('vid')] = $taxonomy->get('name');
+  }
+  return $list;
+    // $query = \Drupal::entityQuery('taxonomy_term');
+    // $query->condition('vid', "tags");
+    // $tids = $query->execute();
+    // $terms = \Drupal\taxonomy\Entity\Term::loadMultiple($tids);
+}
+
+function dafr_view_random_id($length = 5){
+  $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
+  $randomString = '';
+  for ($i = 0; $i < $length; $i++) {
+      $randomString .= $characters[rand(0, strlen($characters) - 1)];
+  }
+  return $randomString;
+}

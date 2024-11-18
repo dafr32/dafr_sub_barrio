@@ -86,9 +86,9 @@ foreach ($terms_tmp as $key => $value) {
 foreach ($variables['view']->result as $key => $result) {
     // Pobranie obiektu węzła artykułu
     $node = Node::load($result->nid);
-    if ($node->hasField('field_kolor') && !$node->get('field_kolor')->isEmpty()) {
+    if ($node->hasField('field_kategoria') && !$node->get('field_kategoria')->isEmpty()) {
         // $terms = $node->get('field_kolor')->referencedEntities();
-        $term_ids = $node->get('field_kolor')->getValue();
+        $term_ids = $node->get('field_kategoria')->getValue();
         if (!empty($term_ids)) {
             // Załóżmy, że jest tylko jeden termin w polu
             $term_id = $term_ids[0]['target_id'];

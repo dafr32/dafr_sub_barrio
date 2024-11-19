@@ -10,6 +10,7 @@ libraries:
   - dafr_sub_barrio/global-styling
   - dafr_sub_barrio/aos
   - dafr_sub_barrio/owl_carousel
+  - dafr_sub_barrio/scrollr
 
 libraries-override:
   blazy_photoswipe/load: dafr_sub_barrio/blazy_photoswipe_override

@@ -67,3 +67,8 @@ blazy_photoswipe_override:
     - blazy/dblazy
     - blazy/media
     - blazy_photoswipe/photoswipe
+
+scrollr:
+  js:
+    libraries/scrollr/skrollr.min.js: {}
+    

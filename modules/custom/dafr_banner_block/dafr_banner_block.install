@@ -1,0 +1,300 @@
+<?php
+
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\block_content\Entity\BlockContentType;
+
+/**
+ * Implements hook_install().
+ */
+function dafr_banner_block_install() {
+    // Tworzenie typu zawartości blokowej, jeśli nie istnieje.
+    $block_content_type = BlockContentType::load('dafr_banner_block');
+    if (!$block_content_type) {
+        $block_content_type = BlockContentType::create([
+            'id' => 'dafr_banner_block',
+            'label' => 'block Banner (DAFR)',
+            'description' => 'blok Banner wykorzystany przez component Banner ',
+        ]);
+        $block_content_type->save();
+    }
+
+    // Definicja pól.
+    $fields = [
+        'field_title' => [
+            'label' => 'Title',
+            'type' => 'string',
+        ],
+        'container' => [
+            'label' => 'Szerokość treści',
+            'type' => 'list_string',
+            'settings' => [
+                'allowed_values' => [
+                    'container' => 'container (1320px)',
+                    'container-xl' => 'container-XL (1520px)',
+                    'container-xxl' => 'container-XXL (1820px)',
+                    'container-fluid' => 'container-fluid',
+                ],
+            ],
+            'default_value' => 'container',
+        ],
+        'field_subtitle' => [
+            'label' => 'Subtitle',
+            'type' => 'string',
+        ],
+        'field_body' => [
+            'label' => 'Treść',
+            'type' => 'text_long',
+        ],
+        'field_bg_color' => [
+            'label' => 'Kolor tła',
+            'type' => 'string',
+        ],
+        'field_text_color' => [
+            'label' => 'Kolor tekstu',
+            'type' => 'string',
+        ],
+        'field_bg_image' => [
+            'label' => 'Zdjęcie tła',
+            'description' => 'The URL for the image.',
+            'type' => 'image',
+            'settings' => [
+                'uri_scheme' => 'public',
+                'file_directory' => 'images',
+                'max_resolution' => '3000x3000',                
+                'alt_field_required' => FALSE,
+            ],
+        ],
+        'field_button_link' => [
+            'label' => 'Button Link',
+            'type' => 'link',
+        ],
+        'field_type' => [
+            'label' => 'Typ bloku',
+            'type' => 'list_string',
+            'settings' => [
+                'allowed_values' => [
+                    'background-image' => 'Zdjęcie w tle',
+                    'background-color' => 'Kolor w tle',
+                ],
+            ],
+        ],
+        'field_align' => [
+            'label' => 'Wyrównanie tekstu',
+            'type' => 'list_string',
+            'settings' => [
+                'allowed_values' => [
+                    'left' => 'do lewej',
+                    'center' => 'do środka',
+                    'right' => 'do prawej',                    
+                ],
+            ],
+            'default_value' => 'left',
+        ],
+        'field_valign' => [
+            'label' => 'Wyrównanie w pionie',
+            'type' => 'list_string',
+            'settings' => [
+                'allowed_values' => [
+                    'start' => 'do góry',
+                    'center' => 'na środek',
+                    'end' => 'do dołu',
+                ],
+            ],
+            'default_value' => 'center',
+        ],
+        'field_parallax' => [
+            'label' => 'Parallax',
+            'type' => 'boolean',
+        ],
+        'field_height' => [
+            'label' => 'Wysokość',
+            'type' => 'string',
+        ],
+        'field_width' => [
+            'label' => 'Max szerokość treści',
+            'type' => 'string',
+        ],
+        'field_class' => [
+            'label' => 'Klasy',
+            'type' => 'string',
+        ],
+    ];
+
+    // Tworzenie instancji pola
+    foreach ($fields as $field_name => $field_info) {
+        // Sprawdzenie, czy istnieje konfiguracja przechowywania pól.
+        $field_storage_exists = (bool) FieldStorageConfig::loadByName('block_content', $field_name);
+
+        if (!$field_storage_exists) {
+            // Tworzenie konfiguracji przechowywania pól.
+            $field_storage = FieldStorageConfig::create([
+                'field_name' => $field_name,
+                'entity_type' => 'block_content',
+                'type' => $field_info['type'],
+                'settings' => isset($field_info['settings']) ? $field_info['settings'] : [],
+            ]);
+            $field_storage->save();
+        }
+
+        // Tworzenie konfiguracji instancji pola, jeśli nie istnieje.
+        $field_instance_exists = (bool) FieldConfig::loadByName('block_content', 'dafr_banner_block', $field_name);
+
+        if (!$field_instance_exists) {
+            $field_instance = FieldConfig::create([
+                'field_name' => $field_name,
+                'entity_type' => 'block_content',
+                'bundle' => 'dafr_banner_block',
+                'label' => $field_info['label'],
+                'description' => isset($field_info['description']) ? $field_info['description'] : '',
+                'settings' => isset($field_info['settings']) ? $field_info['settings'] : [],
+            ]);
+            $field_instance->save();
+        }
+        // Ustawienie wartości domyślnej dla instancji pola.
+        if (isset($field_info['default_value'])) {
+            $field_instance->set('default_value', [
+                ['value' => $field_info['default_value']],
+            ]);
+            $field_instance->save();
+        }
+    }
+
+    // Ustawienie wyświetlania formularza.
+    $form_display = EntityFormDisplay::load('block_content.dafr_banner_block.default');
+    if (!$form_display) {
+        $form_display = EntityFormDisplay::create([
+            'targetEntityType' => 'block_content',
+            'bundle' => 'dafr_banner_block',
+            'mode' => 'default',
+            'status' => TRUE,
+        ]);
+    }
+
+    // Ustawienie komponentów formularza z odpowiednimi wagami.
+    $field_weights = [
+        'container' => 0,
+        'field_title' => 1,
+        'field_subtitle' => 2,        
+        'field_body' => 3,
+        'field_bg_color' => 4,
+        'field_text_color' => 5,
+        'field_bg_image' => 6,
+        'field_button_link' => 7,        
+        'field_type' => 8,
+        'field_align' => 9,
+        'field_valign' => 10,        
+        'field_parallax' => 11,
+        'field_height' => 12,
+        'field_width' => 13,
+        'field_class' =>14
+    ];
+
+    foreach ($fields as $field_name => $field_info) {
+        $form_display->setComponent($field_name, [
+            'type' => 'text_textfield', // Domyślny typ pola formularza
+            'weight' => $field_weights[$field_name],
+        ]);
+    }
+    $form_display->save();
+
+    // Aktualizacja ustawień wyświetlania w celu ukrycia etykiet pól.
+    $view_modes = ['default'];
+    foreach ($view_modes as $view_mode) {
+        $display = EntityViewDisplay::load("block_content.dafr_banner_block.$view_mode");
+        if (!$display) {
+            $display = EntityViewDisplay::create([
+                'targetEntityType' => 'block_content',
+                'bundle' => 'dafr_banner_block',
+                'mode' => $view_mode,
+                'status' => TRUE,
+            ]);
+        }
+
+        foreach (array_keys($fields) as $field_name) {
+            $display->setComponent($field_name, [
+                'label' => 'hidden',
+                'type' => 'string',
+            ]);
+        }
+
+        $display->save();
+    }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function dafr_banner_block_uninstall() {
+    // Załadowanie i usunięcie typu zawartości blokowej, jeśli istnieje.
+    $block_content_type = BlockContentType::load('dafr_banner_block');
+    if ($block_content_type) {
+        // Pobranie wszystkich bloków tego typu.
+        $query = \Drupal::entityQuery('block_content')
+            ->condition('type', 'dafr_banner_block')
+            ->condition('status', 1) // Tylko aktywne bloki.
+            ->accessCheck(FALSE); // Dodaj to, aby wyłączyć sprawdzanie dostępu.
+
+        $block_ids = $query->execute();
+
+        // Usuwanie wszystkich znalezionych bloków.
+        if (!empty($block_ids)) {
+            $blocks = \Drupal::entityTypeManager()->getStorage('block_content')->loadMultiple($block_ids);
+            foreach ($blocks as $block) {
+                $block->delete();
+            }
+        }
+
+        // Usunięcie samego typu zawartości blokowej.
+        $block_content_type->delete();
+    }
+
+    // Definicja pól do usunięcia.
+    $fields_to_delete = [
+        'container',
+        'field_title',
+        'field_subtitle',
+        'field_body',
+        'field_bg_color',
+        'field_text_color',
+        'field_bg_image',
+        'field_button_link',
+        'field_type',
+        'field_align',
+        'field_valign',
+        'field_parallax',
+        'field_height',
+        'field_width',
+        'field_class'
+    ];
+
+    foreach ($fields_to_delete as $field_name) {
+        // Sprawdzenie, czy instancja pola jest używana przez jakiś blok.
+        $field_instance = FieldConfig::loadByName('block_content', 'dafr_banner_block', $field_name);
+        if ($field_instance) {
+            // Pobranie listy bloków używających tego pola.
+            $query = \Drupal::entityQuery('block_content')
+                ->condition('type', 'dafr_banner_block')
+                ->condition('status', 1) // Tylko aktywne bloki.
+                ->exists($field_name) // Sprawdzenie, czy pole nie jest puste.
+                ->accessCheck(FALSE); // Dodaj to, aby wyłączyć sprawdzanie dostępu.
+
+            $block_count = $query->count()->execute();
+
+            // Jeśli żaden blok nie używa tego pola, usuń jego konfigurację.
+            if ($block_count === 0) {
+                $field_instance->delete();
+
+                // Usunięcie konfiguracji przechowywania pola, jeśli istnieje.
+                $field_storage = FieldStorageConfig::loadByName('block_content', $field_name);
+                if ($field_storage) {
+                    $field_storage->delete();
+                }
+            }
+        }
+    }
+}
+
+

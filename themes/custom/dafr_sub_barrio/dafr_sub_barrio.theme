@@ -248,3 +248,25 @@ function dafr_sub_barrio_preprocess_block__system_breadcrumb_block(&$variables){
    $variables['breadcrumb_title'] = $title;
 }
 
+/**
+ * Implements hook_preprocess_HOOK() for block templates.
+ */
+function dafr_sub_barrio_preprocess_block__block_dafr_banner_block(&$variables) {
+  // Sprawdź, czy blok zawiera klucz #block_content
+  if (isset($variables['elements']['content']['#block_content'])) {
+    $block = $variables['elements']['content']['#block_content'];
+    $variables['container_key'] = $block->get('container')->value;
+    $variables['align_key'] = $block->get('field_align')->value;
+    $variables['valign_key'] = $block->get('field_valign')->value;
+
+    // Dodanie logowania po przypisaniu wartości
+    // \Drupal::logger('dafr_banner_block')->notice('Field align value: ' . $variables['field_align']);
+  } else {
+    // \Drupal::logger('dafr_banner_block')->warning('Block content not set or does not match.');
+  }
+}
+
+
+
+
+

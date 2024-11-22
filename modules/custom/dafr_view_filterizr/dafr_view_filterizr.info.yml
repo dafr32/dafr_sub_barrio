@@ -1,7 +1,7 @@
 name: 'DAFR view Filterizr'
 type: module
 description: 'Dafr view module for Filterizr'
-package: Custom
+package: DAFR
 core_version_requirement: ^10 || ^11
 dependencies:
   - drupal:views

@@ -1,0 +1,32 @@
+'$schema': 'https://git.drupalcode.org/project/drupal/-/raw/10.1.x/core/modules/sdc/src/metadata.schema.json'
+name: Banner
+status: stable
+description: component for block Dafr block Banner
+props:
+  type: object
+  properties:
+    container:
+      type: string
+      title: container
+    bg_color:
+      type: string
+      title: bg_color      
+    text_color:    
+      type: string
+      title: text_color      
+    content_align:
+      type: string
+      title: align
+    content_valign:
+      type: string
+      title: valign
+    bg_image:
+      type: string
+      title: bg_image
+      description: The URL for the image.      
+      format: uri      
+    parallax:
+      type: string
+      title: parallax
+
+  

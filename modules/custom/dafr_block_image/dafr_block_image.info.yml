@@ -1,0 +1,10 @@
+name: 'Custom DAFR - block Image'
+type: module
+description: 'Creates DAFR custom block type - block Image'
+package: DAFR
+core_version_requirement: ^10 || ^11
+dependencies:
+  - drupal:block_content
+  - drupal:field
+  - drupal:image
+version: 1.0

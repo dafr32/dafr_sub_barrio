@@ -3,19 +3,22 @@
  * Global utilities.
  *
  */
-(function (Drupal) {
+(function ($, Drupal) {
 
   'use strict';
 
   Drupal.behaviors.libraries_init = {
     attach: function (context, settings) {
     	AOS.init();
-      skrollr.init({
-        render: function(data) {
-            //Debugging - Log the current scroll position.
-            //console.log(data.curTop);
-        }
-      });
+
+      if ($('.rellax', context).length) {
+        new Rellax('.rellax', {
+          // Example Rellax options (customize as needed)
+          speed: -2, // Speed of the parallax effect
+          center: true, // Center the parallax effect
+          wrapper: null, // Optional wrapper element
+        });
+      }
     },
   };
 
@@ -25,4 +28,4 @@
     }
   };
 
-})(Drupal);
+})(jQuery,Drupal);

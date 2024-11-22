@@ -1,0 +1,158 @@
+<?php
+
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\block_content\Entity\BlockContentType;
+
+/**
+ * Implements hook_install().
+ */
+function dafr_block_image_install() {
+    // Tworzenie typu zawartości blokowej, jeśli nie istnieje.
+    $block_content_type = BlockContentType::load('dafr_block_image');
+    if (!$block_content_type) {
+        $block_content_type = BlockContentType::create([
+            'id' => 'dafr_block_image',
+            'label' => 'block Image (DAFR)',
+            'description' => 'Blok wyswietlający zdjęcie',
+        ]);
+        $block_content_type->save();
+    }
+
+    // Definicja pól.
+    $fields = [
+        'field_image' => [
+            'label' => 'Image',
+            'description' => 'The image.',
+            'type' => 'image',
+            'settings' => [
+                'uri_scheme' => 'public',
+                'file_directory' => 'images',
+                'max_resolution' => '3000x3000',                
+                'alt_field_required' => FALSE,
+            ],
+        ],       
+    ];
+
+    foreach ($fields as $field_name => $field_info) {
+        // Sprawdzenie, czy istnieje konfiguracja przechowywania pól.
+        $field_storage_exists = (bool) FieldStorageConfig::loadByName('block_content', $field_name);
+
+        if (!$field_storage_exists) {
+            // Tworzenie konfiguracji przechowywania pól.
+            $field_storage = FieldStorageConfig::create([
+                'field_name' => $field_name,
+                'entity_type' => 'block_content',
+                'type' => $field_info['type'],
+                'settings' => isset($field_info['settings']) ? $field_info['settings'] : [],
+            ]);
+            $field_storage->save();
+        }
+
+        // Tworzenie konfiguracji instancji pola, jeśli nie istnieje.
+        $field_instance_exists = (bool) FieldConfig::loadByName('block_content', 'dafr_block_image', $field_name);
+
+        if (!$field_instance_exists) {
+            $field_instance = FieldConfig::create([
+                'field_name' => $field_name,
+                'entity_type' => 'block_content',
+                'bundle' => 'dafr_block_image',
+                'label' => $field_info['label'],
+                'description' => isset($field_info['description']) ? $field_info['description'] : '',
+                'settings' => isset($field_info['settings']) ? $field_info['settings'] : [],
+            ]);
+            $field_instance->save();
+        }
+    }
+
+
+    // Ustawienie wyświetlania formularza.
+    $form_display = EntityFormDisplay::load('block_content.dafr_block_image.default');
+    if (!$form_display) {
+        $form_display = EntityFormDisplay::create([
+            'targetEntityType' => 'block_content',
+            'bundle' => 'dafr_block_image',
+            'mode' => 'default',
+            'status' => TRUE,
+        ]);
+    }
+
+    // Ustawienie komponentów formularza z odpowiednimi wagami.
+    $field_weights = [        
+        'field_image' => 0,        
+    ];
+
+    foreach ($fields as $field_name => $field_info) {
+        $form_display->setComponent($field_name, [
+            'type' => 'text_textfield', // Domyślny typ pola formularza
+            'weight' => $field_weights[$field_name],
+        ]);
+    }
+    $form_display->save();
+
+    // Aktualizacja ustawień wyświetlania w celu ukrycia etykiet pól.
+    $view_modes = ['default'];
+    foreach ($view_modes as $view_mode) {
+        $display = EntityViewDisplay::load("block_content.dafr_block_image.$view_mode");
+        if (!$display) {
+            $display = EntityViewDisplay::create([
+                'targetEntityType' => 'block_content',
+                'bundle' => 'dafr_block_image',
+                'mode' => $view_mode,
+                'status' => TRUE,
+            ]);
+        }
+
+        foreach (array_keys($fields) as $field_name) {
+            $display->setComponent($field_name, [
+                'label' => 'hidden',
+                'type' => 'string',
+            ]);
+        }
+
+        $display->save();
+    }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function dafr_block_image_uninstall() {
+    // Załadowanie i usunięcie typu zawartości blokowej, jeśli istnieje.
+    $block_content_type = BlockContentType::load('dafr_block_image');
+    if ($block_content_type) {
+        $block_content_type->delete();
+    }
+
+    // Definicja pól do usunięcia.
+    $fields_to_delete = [
+        'field_image',        
+    ];
+
+    foreach ($fields_to_delete as $field_name) {
+        // Sprawdzenie, czy instancja pola jest używana przez jakiś blok.
+        $field_instance = FieldConfig::loadByName('block_content', 'hero_block', $field_name);
+        if ($field_instance) {
+            // Pobranie listy bloków używających tego pola.
+            $query = \Drupal::entityQuery('block_content')
+                ->condition('type', 'hero_block')
+                ->condition('status', 1) // Tylko aktywne bloki.
+                ->exists($field_name); // Sprawdzenie, czy pole nie jest puste.
+
+            $block_count = $query->count()->execute();
+
+            // Jeśli żaden blok nie używa tego pola, usuń jego konfigurację.
+            if ($block_count === 0) {
+                $field_instance->delete();
+
+                // Usunięcie konfiguracji przechowywania pola, jeśli istnieje.
+                $field_storage = FieldStorageConfig::loadByName('block_content', $field_name);
+                if ($field_storage) {
+                    $field_storage->delete();
+                }
+            }
+        }
+    }
+}

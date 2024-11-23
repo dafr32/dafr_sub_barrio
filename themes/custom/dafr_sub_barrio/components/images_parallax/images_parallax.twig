@@ -1,0 +1,35 @@
+{% if style == "images on left" %}
+	{% set txt_order = 'order-2' %}
+	{% set images_order = 'order-1' %}
+	{% set margin = 'right' %}
+	{% set img2_margin = 'me-auto' %}
+
+{% else %}
+	{% set txt_order = 'order-1' %}
+	{% set images_order = 'order-2' %}
+	{% set margin = 'left' %}
+	{% set img2_margin = 'ms-auto' %}
+{% endif %}
+
+<div {{ attributes.addClass('images-parallax my-5') }}>	
+	<div class="row">
+		<div class="col-lg-6 col-12 {{images_order}}">
+			<div class="images-inner">
+				<div class="sticker-box" style="{{margin}}:35px">
+					<div class="content-box-inner">{{sticker}}</div>
+				</div>
+				<div class="image-1 rellax" style="{{margin}}:0" data-rellax-speed="2"> {% block image1 %}{% endblock %}	</div>
+				<div class="image-2 {{img2_margin}} rellax" data-rellax-speed="0"> {% block image2 %}{% endblock %}</div>
+			</div>			
+		</div>
+		<div class="col-lg-6 col-12 {{txt_order}}">
+			<div class="content-inner">
+				<h4 class="sub-title">{{ subtitle }}</h4>
+				<h1 class="title">{{ title }}</h1>
+				<div class="content">{% block content %}{% endblock %}</div>															
+			</div>
+		</div>
+	</div>	
+</div>
+
+

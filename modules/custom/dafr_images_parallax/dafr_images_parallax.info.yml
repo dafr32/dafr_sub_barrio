@@ -1,0 +1,11 @@
+name: 'Custom DAFR - Images Parallax'
+type: module
+description: 'Creates DAFR custom block type - Images Parallax - for component images_parallax.'
+core_version_requirement: ^10 || ^11
+package: DAFR
+dependencies:
+  - block_content
+  - field
+  - text
+  - image
+version: 1.0

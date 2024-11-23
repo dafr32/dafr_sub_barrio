@@ -1,5 +1,8 @@
+{% set random_id = random() %}
+
+
 {% if attributes -%}
-   <div{{ attributes }}>
+   <div{{ attributes }} id="filterizr" >
 {% endif %}
    
    {% if title %}

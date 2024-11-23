@@ -12,11 +12,7 @@
     	AOS.init();
 
       if ($('.rellax', context).length) {
-        new Rellax('.rellax', {
-          // Example Rellax options (customize as needed)
-          speed: -2, // Speed of the parallax effect
-          center: true, // Center the parallax effect
-          wrapper: null, // Optional wrapper element
+        new Rellax('.rellax', {                    
         });
       }
     },

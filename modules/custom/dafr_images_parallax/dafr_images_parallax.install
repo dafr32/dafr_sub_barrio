@@ -1,0 +1,214 @@
+<?php
+
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\block_content\Entity\BlockContentType;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+
+/**
+ * Implements hook_install().
+ */
+function dafr_images_parallax_install(){
+  // Create the block content type if it doesn't exist.
+  $block_content_type = BlockContentType::load('dafr_images_parallax');
+  if (!$block_content_type) {
+    $block_content_type = BlockContentType::create([
+      'id' => 'dafr_images_parallax',
+      'label' => 'Images Parallax (DAFR)',
+    ]);
+    $block_content_type->save();
+  }
+
+  // Define fields based on YAML specification with 'field_' prefix.
+  $fields = [
+    'field_title' => [
+      'label' => 'Tytuł',
+      'type' => 'string',
+    ],
+    'field_subtitle' => [
+      'label' => 'Podtytuł',
+      'type' => 'string',
+    ],
+    'field_body' => [
+      'label' => 'Treść',
+      'type' => 'text_with_summary',
+    ],
+    'field_sticker' => [
+      'label' => 'Naklejka',
+      'type' => 'string',
+    ],
+    'field_image1' => [
+      'label' => 'Obraz 1 (poziomy 1-plan)',
+      'type' => 'image',
+      'settings' => [
+        'uri_scheme' => 'public',
+        'file_directory' => 'images',
+        'max_resolution' => '1000x1000',
+        'max_filesize' => '1 MB',
+      ],
+    ],
+    'field_image2' => [
+      'label' => 'Obraz 2 (pionowy 2-plan)',
+      'type' => 'image',
+      'settings' => [
+        'uri_scheme' => 'public',
+        'file_directory' => 'images',
+        'max_resolution' => '1000x1000',
+        'max_filesize' => '1 MB',
+      ],
+    ],
+    'field_style' => [
+      'label' => 'Styl wyświetlania',
+      'type' => 'list_string',
+      'settings' => [
+        'allowed_values' => [
+          'images-on-left' => 'images on left',
+          'images-on-right' => 'images on right',
+        ],
+      ],
+    ],
+    'field_video' => [
+      'label' => 'video',
+      'type' => 'string',
+    ],
+
+  ];
+
+  foreach ($fields as $field_name => $field_info) {
+    // Check if field storage exists.
+    $field_storage_exists = (bool) FieldStorageConfig::loadByName('block_content', $field_name);
+
+    if (!$field_storage_exists) {
+      // Create field storage configuration.
+      $field_storage = FieldStorageConfig::create([
+        'field_name' => $field_name,
+        'entity_type' => 'block_content',
+        'type' => $field_info['type'],
+        'settings' => isset($field_info['settings']) ? $field_info['settings'] : [],
+      ]);
+      $field_storage->save();
+    }
+
+    // Create field instance configuration if it doesn't exist.
+    $field_instance_exists = (bool) FieldConfig::loadByName('block_content', 'dafr_images_parallax', $field_name);
+
+    if (!$field_instance_exists) {
+      $field_instance = FieldConfig::create([
+        'field_name' => $field_name,
+        'entity_type' => 'block_content',
+        'bundle' => 'dafr_images_parallax',
+        'label' => $field_info['label'],
+        'description' => isset($field_info['description']) ? $field_info['description'] : '',
+        'settings' => isset($field_info['settings']) ? $field_info['settings'] : [],
+      ]);
+      $field_instance->save();
+    }
+  }
+
+
+
+  // Set up form display - field weights.
+  $form_display = EntityFormDisplay::load('block_content.dafr_images_parallax.default');
+  if (!$form_display) {
+    $form_display = EntityFormDisplay::create([
+      'targetEntityType' => 'block_content',
+      'bundle' => 'dafr_images_parallax',
+      'mode' => 'default',
+      'status' => TRUE,
+    ]);
+  }
+
+  $field_weights = [
+    'field_title' => 0,
+    'field_subtitle' => 1,
+    'field_sticker' => 2,
+    'field_body' => 3,
+    'field_image1' => 4,
+    'field_image2' => 5,
+    'field_style' => 6,
+    'field_video' => 7,
+  ];
+
+
+  foreach ($fields as $field_name => $field_info) {
+    $form_display->setComponent($field_name, [
+      'type' => 'text_textfield', // Domyślny typ pola formularza
+      'weight' => $field_weights[$field_name],
+    ]);
+  }
+  $form_display->save();
+
+
+
+  // Update display settings to hide field labels.
+  $view_modes = ['default'];
+  foreach ($view_modes as $view_mode) {
+    $display = EntityViewDisplay::load("block_content.dafr_images_parallax.$view_mode");
+    if (!$display) {
+      $display = EntityViewDisplay::create([
+        'targetEntityType' => 'block_content',
+        'bundle' => 'dafr_images_parallax',
+        'mode' => $view_mode,
+        'status' => TRUE,
+      ]);
+    }
+
+    foreach (array_keys($fields) as $field_name) {
+      $display->setComponent($field_name, [
+        'label' => 'hidden',
+        'type' => 'string',
+      ]);
+    }
+
+    $display->save();
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function dafr_images_parallax_uninstall(){
+  // Load and delete the block content type if it exists.
+  $block_content_type = BlockContentType::load('dafr_images_parallax');
+  if ($block_content_type) {
+    $block_content_type->delete();
+  }
+
+  // Define fields to delete, excluding those in use by any blocks.
+  $fields_to_delete = [
+    'field_title',
+    'field_subtitle',
+    'field_body',
+    'field_sticker',
+    'field_image1',
+    'field_image2',    
+    'field_style',
+    'field_video',
+  ];
+
+  foreach ($fields_to_delete as $field_name) {
+    // Check if the field instance is used by any block.
+    $field_instance = FieldConfig::loadByName('block_content', 'dafr_images_parallax', $field_name);
+    if ($field_instance) {
+      // Get the list of blocks using this field.
+      $query = \Drupal::entityQuery('block_content')
+        ->condition('type', 'dafr_images_parallax')
+        ->condition('status', 1) // Only active blocks.
+        ->exists('field_' . $field_name); // Check if the field is not empty.
+
+      $block_count = $query->count()->execute();
+
+      // If no blocks are using this field, delete its configuration.
+      if ($block_count === 0) {
+        $field_instance->delete();
+
+        // Delete field storage configuration if it exists.
+        $field_storage = FieldStorageConfig::loadByName('block_content', $field_name);
+        if ($field_storage) {
+          $field_storage->delete();
+        }
+      }
+    }
+  }
+}

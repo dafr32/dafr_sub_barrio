@@ -1,34 +1,25 @@
 {% set random_id = random() %}
 
 {% if bg_image %}
-{% set bg_style = "background-image:url('" ~ bg_image ~ "');background-repeat: no-repeat; background-position: center center" %}
-
+	{% set bg_style = "background-image:url('" ~ bg_image ~ "');background-repeat: no-repeat; background-position: center center" %}
 {% else %}
 	{% set bg_style = "background-color:" ~ bg_color %}
 {% endif %}
 
-<style>
-	.dafr__Banner-bcg {
-		{{bg_style|raw}}
-	}
-</style>
-
-<div {{ attributes }}>	
-<div id="banner-{{random_id}}" class="dafr__Banner" style="height:{{height}}">
-    <div class="dafr__banner-content">
-        <div class="dafr__banner-container {{container}} d-flex align-items-{{content_valign}}">
-            <div style="color:{{text_color}}; text-align:{{content_align}}; max-width:{{width}}">
-                <div>
-                    {% block title %}{% endblock %}
-                </div>
-                <div>
-                    {% block content %}{% endblock %}
-                </div>
-            </div>
-        </div>
-    </div>
-<div class="dafr__banner-bg {{parallax}}" data-rellax-speed="-7" data-rellax-percentage="0.5" style="{{bg_style}}; background-repeat: no-repeat; background-position: center center;"></div>
-
-
-
+<div {{ attributes }}>
+	<div id="banner-{{random_id}}" class="dafr__Banner" style="height:{{height}}">
+		<div class="dafr__banner-content">
+			<div class="dafr__banner-container {{container}} d-flex align-items-{{content_valign}} justify-content-{{content_align}}">
+				<div style="color:{{text_color}}; max-width:{{width}}; text-align:{{content_align}}">
+					<div>
+						{% block title %}{% endblock %}
+					</div>
+					<div>
+						{% block content %}{% endblock %}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="dafr__banner-bg {{parallax}}" data-rellax-speed="-7" data-rellax-percentage="0.5" style="{{bg_style}}; background-repeat: no-repeat; background-position: center center;"></div>
+	</div>
 </div>

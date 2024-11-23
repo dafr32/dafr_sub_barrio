@@ -180,7 +180,7 @@ function dafr_sub_barrio_preprocess_page(&$variables) {
           \Drupal::logger('container')->notice(''. $layout);
           if($layout){
             if($layout == 'fw'){
-              $variables['container_main'] = 'container-fluid';
+              $variables['container_main'] = 'full-width';
             }elseif($layout == 'container-xxl'){ 
               $variables['container_main'] = 'container-xxl';            
             }elseif($layout == 'container'){ 
@@ -265,8 +265,4 @@ function dafr_sub_barrio_preprocess_block__block_dafr_banner_block(&$variables) 
     // \Drupal::logger('dafr_banner_block')->warning('Block content not set or does not match.');
   }
 }
-
-
-
-
 

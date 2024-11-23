@@ -1,0 +1,46 @@
+'$schema': 'https://git.drupalcode.org/project/drupal/-/raw/10.1.x/core/modules/sdc/src/metadata.schema.json'
+name: images_parallax
+status: stable
+description: DAFR - Component - images parallax
+props:
+  type: object
+  properties:
+    attributes:
+      type: Drupal\Core\Template\Attribute
+      title: Attributes
+      description: Banner attributes.
+    title:
+      type: string
+      title: title
+    subtitle:
+      type: string
+      title: subtitle
+    sticker:
+      type: string
+      title: sticker
+      # @todo Add examples here.
+      examples: 'sticker text'   
+    style:
+      type: string
+      title: style
+      description: position of images (left or right)
+      examples:
+        - images-on-left
+        - images-on-right      
+
+slots:
+  content:
+    # A human-readable name.
+    title: Content
+  image1:
+    # A human-readable name.
+    title: Image1
+    # A description.
+    description: This is the image1
+  image2:
+    # A human-readable name.
+    title: Image2
+    # A description.
+    description: This is the image2
+  video:      
+    title: video      

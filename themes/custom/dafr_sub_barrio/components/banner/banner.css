@@ -4,6 +4,7 @@
 
 
 .dafr__Banner {
+  width: 100%;
   position: relative;    
   -webkit-background-size: cover;
   -moz-background-size: cover;

@@ -17,4 +17,25 @@
             });
         },
     };
+    
+
+    Drupal.behaviors.preventScrollToTop = {
+        attach: function (context, settings) {            
+            $('#filterizr .btn-filterizr').on('click', function () {
+                var scrollPosition = $(window).scrollTop(); // Zapamiętaj bieżącą pozycję scrolla
+                $('html, body').animate({
+                    scrollTop: scrollPosition
+                }, 100); 
+
+                // Po zakończeniu animacji pozwól na dalsze przewijanie
+                var scrollPosition = $(window).scrollTop();
+                setTimeout(function () {
+                    $(window).on('scroll', function () {
+                        // Możesz dodać jakieś dalsze logikę tutaj, jeśli chcesz ograniczyć scrollowanie
+                    });
+                }, 100); 
+            });
+        }
+    };
+
 })(jQuery, Drupal);

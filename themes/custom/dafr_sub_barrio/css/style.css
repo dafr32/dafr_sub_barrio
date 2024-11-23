@@ -15,6 +15,7 @@
 
 html {
     font-size: 17px;
+    scroll-behavior: smooth !important;
 }
 
 body {
@@ -59,6 +60,10 @@ a, a:link {
 } */
 
 /* containers */
+
+.full-width {
+    width: 100%;
+}
 
 @media screen and (min-width: 1688px) {
     .container-xxl {
@@ -187,9 +192,6 @@ body.hidden-title .node--view-mode-full .header-title {
     display: none !important;
 }
 
-
-
-
  /* --------------------------------------------- */
 /* FOOTER  */
 /* --------------------------------------------- */
@@ -210,75 +212,13 @@ body.hidden-title .node--view-mode-full .header-title {
    
 }
 
-
-/* // --------------------------------------------- */
-/* // Landing Page scrollr */
-/* // --------------------------------------------- */
-section {
-    opacity: 1;
-    -webkit-transition: opacity 300ms ease-out;
-    -moz-transition: opacity 300ms ease-out;
-    transition: opacity 300ms ease-out;
-}
-.hsContainer {
-    display: table;
-    table-layout: fixed;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    position: relative;
-    opacity: 1;    
-}
-.hsContent {
-    max-width: 450px;
-    margin: -150px auto 0 auto;
-    display: table-cell;
-    vertical-align: middle;
-    color: #ebebeb !important;
-    padding: 0 8%;
-    text-align: center
-}
-.hsContent h2, .copy h2 {
-    color: #ffffff;
-    font-size: 45px;
-    line-height: 48px;
-    margin-bottom: 12px;
-}
-.bcg {
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-    height: 100%;
-    width: 100%;
-}
-/* Slide 1 */
-#slide-1 { height: 100vh;}
-#slide-1 .bcg {
-    background-image:url('https://ihatetomatoes.net/demos/parallax-scroll-effect/img/bcg_slide-1.jpg');
-    background-size: cover;}
-
-#slide-2 { height: 310px;}
-#slide-2 .bcg {
-    background: none;
-    background-color: #010101;
-    height: 310px;
-    text-align: center
-}
-
-#slide-3 { height: 660px; width:100% ;}
-#slide-3 .hsContainer {
-    display: table;
-    table-layout: fixed;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    position: relative;
-    opacity: 1;        
-}
-#slide-3 .bcg {
-    background-image:url('http://109.95.150.75/barrio/web/sites/default/files/2024-11/CFH%20conference-17_0.jpg');
-    background-size: cover;       
+/* --------------------------------------------- */
+/* LANDING PAGE  */
+/* --------------------------------------------- */
+.node--type-landing-page.node--view-mode-full {
+    .node__content {
+        margin-top: 0;
+    }
 }
 
 

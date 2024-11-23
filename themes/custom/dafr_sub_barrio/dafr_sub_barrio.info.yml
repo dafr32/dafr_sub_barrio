@@ -11,9 +11,10 @@ libraries:
   - dafr_sub_barrio/aos
   - dafr_sub_barrio/owl_carousel
   - dafr_sub_barrio/rellax
+  - dafr_sub_barrio/ytplayer
 
 libraries-override:
-  blazy_photoswipe/load: dafr_sub_barrio/blazy_photoswipe_override
+  blazy_photoswipe/load: dafr_sub_barrio/blazy_photoswipe_override  
 
 regions:
   top_header: 'Top header'

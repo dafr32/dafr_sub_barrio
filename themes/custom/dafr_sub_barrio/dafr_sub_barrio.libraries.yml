@@ -9,6 +9,10 @@ global-styling:
       css/site-footer.css: {}
       css/colors.css: {weight: 9}      
       css/style.css: {weight: 10}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/once  
       
 bootstrap:
   js:
@@ -71,4 +75,16 @@ blazy_photoswipe_override:
 rellax:
   js:
     libraries/rellax/rellax.min.js: {}
-    
+
+ytplayer:
+  js:
+    libraries/ytplayer/jquery.mb.YTPlayer.min.js: {}
+
+views-infinite-scroll:
+  version: VERSION
+  js:
+    libraries/override/infinite-scroll.js : {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupal.debounce

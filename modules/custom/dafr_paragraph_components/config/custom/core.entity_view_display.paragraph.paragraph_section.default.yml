@@ -1,0 +1,148 @@
+uuid: 6c111a13-c2a0-48d2-8a3e-1bde43aa6cf1
+langcode: pl
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.paragraph_section.field_bg_color
+    - field.field.paragraph.paragraph_section.field_bg_image
+    - field.field.paragraph.paragraph_section.field_classes
+    - field.field.paragraph.paragraph_section.field_container
+    - field.field.paragraph.paragraph_section.field_id
+    - field.field.paragraph.paragraph_section.field_mb
+    - field.field.paragraph.paragraph_section.field_ml
+    - field.field.paragraph.paragraph_section.field_mr
+    - field.field.paragraph.paragraph_section.field_mt
+    - field.field.paragraph.paragraph_section.field_pb
+    - field.field.paragraph.paragraph_section.field_pl
+    - field.field.paragraph.paragraph_section.field_pr
+    - field.field.paragraph.paragraph_section.field_pt
+    - paragraphs.paragraphs_type.paragraph_section
+  module:
+    - color_field
+    - options
+    - svg_image
+id: paragraph.paragraph_section.default
+targetEntityType: paragraph
+bundle: paragraph_section
+mode: default
+content:
+  field_bg_color:
+    type: color_field_formatter_text
+    label: hidden
+    settings:
+      format: hex
+      opacity: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_bg_image:
+    type: image
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_classes:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_container:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_id:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_mb:
+    type: number_integer
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_ml:
+    type: number_integer
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_mr:
+    type: number_integer
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_mt:
+    type: number_integer
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_pb:
+    type: number_integer
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_pl:
+    type: number_integer
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_pr:
+    type: number_integer
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_pt:
+    type: number_integer
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

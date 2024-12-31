@@ -12,6 +12,9 @@ props:
     title:
       type: string
       title: title
+    span_title:
+      type: string
+      title: span_title
     subtitle:
       type: string
       title: subtitle
@@ -25,8 +28,9 @@ props:
       title: style
       description: position of images (left or right)
       examples:
-        - images-on-left
-        - images-on-right      
+        - left        
+    video:      
+      title: video      
 
 slots:
   content:
@@ -42,5 +46,4 @@ slots:
     title: Image2
     # A description.
     description: This is the image2
-  video:      
-    title: video      
+    

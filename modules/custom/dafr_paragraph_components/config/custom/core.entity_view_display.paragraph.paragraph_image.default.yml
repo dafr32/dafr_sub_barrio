@@ -1,0 +1,69 @@
+uuid: a7f65f4f-ca79-4095-aba4-f67a42548a18
+langcode: pl
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.paragraph_image.field_align
+    - field.field.paragraph.paragraph_image.field_animate
+    - field.field.paragraph.paragraph_image.field_animate_delay
+    - field.field.paragraph.paragraph_image.field_animate_duration
+    - field.field.paragraph.paragraph_image.field_bg_image
+    - paragraphs.paragraphs_type.paragraph_image
+  module:
+    - options
+    - svg_image
+_core:
+  default_config_hash: BEogWV6W8jnnqJAf2GxKzFpP7b_grXk52RV27kqGLiM
+id: paragraph.paragraph_image.default
+targetEntityType: paragraph
+bundle: paragraph_image
+mode: default
+content:
+  field_align:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_animate:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_animate_delay:
+    type: number_integer
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_animate_duration:
+    type: number_integer
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_bg_image:
+    type: image
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

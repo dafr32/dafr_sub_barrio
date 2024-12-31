@@ -1,0 +1,28 @@
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    node.isPromoted() ? 'node--promoted',
+    node.isSticky() ? 'node--sticky',
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+  ]
+%}
+
+{% set image_url = file_url(content.field_image.0['#item'].entity.uri.value) %}
+
+{% if content.field_link %}
+	{% set link = content.field_link.0['#url'] %}
+{% endif %}
+
+<div{{content_attributes.addClass('node__content')}}>
+		{{ include('dafr_sub_barrio:partner', {          
+        'logo': image_url,
+        'link': link ,        
+        'background': content.field_bg_color.0['#markup'],
+        }, with_context = false) }}
+</div>
+
+
+
+

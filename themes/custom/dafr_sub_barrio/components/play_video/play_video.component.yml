@@ -1,0 +1,13 @@
+'$schema': 'https://git.drupalcode.org/project/drupal/-/raw/10.1.x/core/modules/sdc/src/metadata.schema.json'
+name: play video
+status: stable
+props:
+  type: object
+  properties: 
+   video_link:
+      title: link to video
+      description: The URL for the image.
+      type: string
+      format: uri
+      examples:
+        - ''

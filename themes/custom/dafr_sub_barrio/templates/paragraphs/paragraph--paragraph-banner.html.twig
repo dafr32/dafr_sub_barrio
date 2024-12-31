@@ -1,0 +1,115 @@
+{%
+  set classes = [
+    'paragraph',
+    'paragraph--type--' ~ paragraph.bundle|clean_class,
+    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+    not paragraph.isPublished() ? 'paragraph--unpublished'
+  ]
+%}
+
+
+{# Margin settings #}
+{% set mt = content.field_mt[0]['#markup'] is not null ? 'margin-top:' ~ content.field_mt[0]['#markup'] ~ 'px; ' : '' %}
+{% set mb = content.field_mb[0]['#markup'] is not null ? 'margin-bottom:' ~ content.field_mb[0]['#markup'] ~ 'px; ' : '' %}
+{% set ml = content.field_ml[0]['#markup'] is not null ? 'margin-left:' ~ content.field_ml[0]['#markup'] ~ 'px; ' : '' %}
+{% set mr = content.field_mr[0]['#markup'] is not null ? 'margin-right:' ~ content.field_mr[0]['#markup'] ~ 'px; ' : '' %}
+
+{# Padding settings #}
+{% set pt = content.field_pt[0]['#markup'] is not null ? 'padding-top:' ~ content.field_pt[0]['#markup'] ~ 'px; ' : '' %}
+{% set pb = content.field_pb[0]['#markup'] is not null ? 'padding-bottom:' ~ content.field_pb[0]['#markup'] ~ 'px; ' : '' %}
+{% set pl = content.field_pl[0]['#markup'] is not null ? 'padding-left:' ~ content.field_pl[0]['#markup'] ~ 'px; ' : '' %}
+{% set pr = content.field_pr[0]['#markup'] is not null ? 'padding-right:' ~ content.field_pr[0]['#markup'] ~ 'px; ' : '' %}
+
+{% set id = content.field_id[0]['#context']['value'] is not null ? 'id=' ~ content.field_id[0]['#context']['value'] : '' %}
+{% set class = content.field_classes[0]['#context']['value'] is not null ? content.field_classes[0]['#context']['value'] : '' %}
+
+{% set bg_image_url = '' %}
+{% if content.field_bg_image is not empty and content.field_bg_image.0['#item'] is defined and content.field_bg_image.0['#item'].entity.uri.value is defined %}
+	{% set bg_image_url = file_url(content.field_bg_image.0['#item'].entity.uri.value) %}
+{% endif %}
+
+
+{% if content.field_video %}
+	{% set media_entity = content.field_video['#items'].entity %}
+	{% set file_entity = media_entity.field_media_video_file.entity %}
+	{% if file_entity %}
+		{% set video_url = file_url(file_entity.uri.value) %}
+	{% endif %}
+{% endif %}
+
+
+
+
+{# Animation  #}
+{# wartość pola nadpisywana w pliku .theme  #}
+{% set animation = content.field_animate[0]['#markup'] is not null ? 'data-aos=' ~ content.field_animate[0]['#markup']  : '' %}
+{% set animation_duration = content.field_animate_duration[0]['#markup'] is not null ? 'data-aos-duration=' ~ content.field_animate_duration[0]['#markup']  : '' %}
+{% set animation_delay = content.field_animate_delay[0]['#markup'] is not null ? 'data-aos-delay=' ~ content.field_animate_delay[0]['#markup']  : '' %}
+
+{% set animationS = content.field_animate_content[0]['#markup'] is not null ? 'data-aos=' ~ content.field_animate_content[0]['#markup']  : '' %}
+{% set animation_durationS = content.field_animate_duration_content[0]['#markup'] is not null ? 'data-aos-duration=' ~ content.field_animate_duration_content[0]['#markup']  : '' %}
+{% set animation_delayS = content.field_animate_delay_content[0]['#markup'] is not null ? content.field_animate_delay_content[0]['#markup']  : '' %}
+
+
+{% set parallax = content.field_parallax.0['#markup'] == "Włączony" ? 'rellax' : '' %}
+{% set blenda = content.field_blenda.0['#markup'] == "Włączony" ? 'blenda' : '0' %}
+
+{% set container_style = content.field_container[0]['#markup'] %}
+{% if container_style == "container (1320px)" %}
+	{% set kont = 'container' %}
+{% elseif container_style == "container-XL (1520px)" %}
+	{% set kont = 'container-xl' %}
+{% elseif container_style == "container-XXL (1720px)" %}
+	{% set kont = 'container-xxl' %}
+{% elseif container_style == "full-width" %}
+	{% set kont = 'full-width' %}
+{% else %}
+	{% set kont = '' %}
+{% endif %}
+
+<div{{attributes.addClass(classes)}}>
+  <div {{id}} class="{{class}}"  {{animation}} {{animation_duration}} {{animation_delay}} style="{{ mt ~ mb ~ ml ~ mr ~ pt ~ pb ~ pl ~ pr }}">
+
+    {{ title_prefix }}
+    {% if label %}
+      {# <h2{{title_attributes}}>{{ label }}</h2> #}
+    {% endif %}
+    {{ title_suffix }}
+
+    {% embed 'dafr_sub_barrio:banner' with {
+        attributes: create_attribute(),       
+        'container' : kont,
+        'subtitle': content.field_subtitle, 
+        'title': content.field_title, 
+        'title2': content.field_title2, 
+        'title_span': content.field_title_span,         
+        'bg_type' : content.field_rodzaj_tla.0['#markup'],
+        'bg_image' : bg_image_url,        
+        'bg_video' : video_url,
+        'content_align' : content.field_align.0,
+        'content_valign' : content.field_valign.0,
+        'text_color': content.field_text_color.0['#markup'],
+        'bg_color': content.field_bg_color.0['#markup'],
+        'height' : content.field_height.0,
+        'width' : content.field_max_width.0, 
+        'parallax' : parallax,
+        'blenda': blenda,
+        'animation_s': animationS,
+        'animation_dur': animation_durationS,
+        'animation_del': animation_delayS,
+      } %}
+      {% block content %}
+        {{ content.field_body }}
+      {% endblock %}
+      {% block video %}
+          <video playsinline="" muted="" autobuffer="" loop="" autoplay="" preload="auto">
+            <source src="{{video_url}}" type="video/mp4">
+          </video>
+      {% endblock %}
+      {% block image %}
+        <img src="{{ bg_image_url}}"  >
+      {% endblock %}
+
+    {% endembed %}
+  </div>
+</div>

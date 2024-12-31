@@ -1,0 +1,28 @@
+'$schema': 'https://git.drupalcode.org/project/drupal/-/raw/10.1.x/core/modules/sdc/src/metadata.schema.json'
+name: partner
+status: stable
+
+props:
+  type: object
+  properties:
+    attributes:
+      type: Drupal\Core\Template\Attribute
+      title: Attributes
+    logo:
+        title: logo
+        description: The URL for the image.
+        type: string
+        format: uri
+        examples:
+          - '/sites/default/files/crema-catalana-umami.jpg'
+    link:
+      type: string
+      title: link
+      examples:
+        - This is title
+    background:    
+      type: string
+      title: background
+      examples:
+        - <p>This is body</p>
+  

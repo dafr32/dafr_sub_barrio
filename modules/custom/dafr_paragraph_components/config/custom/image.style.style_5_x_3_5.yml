@@ -1,0 +1,15 @@
+uuid: be68d01d-982a-40bc-913a-f460f31baa5b
+langcode: pl
+status: true
+dependencies: {  }
+name: style_5_x_3_5
+label: 'Skala 5 x 3.5'
+effects:
+  e115fcca-7836-47b2-9e6a-54e5c624ca56:
+    uuid: e115fcca-7836-47b2-9e6a-54e5c624ca56
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 750
+      height: 525
+      anchor: center-center

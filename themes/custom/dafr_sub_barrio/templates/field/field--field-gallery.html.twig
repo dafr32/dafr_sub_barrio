@@ -1,0 +1,116 @@
+{#
+/**
+ * @file
+ * Theme override for a field.
+ *
+ * To override output, copy the "field.html.twig" from the templates directory
+ * to your theme's directory and customize it, just like customizing other
+ * Drupal templates such as page.html.twig or node.html.twig.
+ *
+ * Instead of overriding the theming for all fields, you can also just override
+ * theming for a subset of fields using
+ * @link themeable Theme hook suggestions. @endlink For example,
+ * here are some theme hook suggestions that can be used for a field_foo field
+ * on an article node type:
+ * - field--node--field-foo--article.html.twig
+ * - field--node--field-foo.html.twig
+ * - field--node--article.html.twig
+ * - field--field-foo.html.twig
+ * - field--text-with-summary.html.twig
+ * - field.html.twig
+ *
+ * Available variables:
+ * - attributes: HTML attributes for the containing element.
+ * - label_hidden: Whether to show the field label or not.
+ * - title_attributes: HTML attributes for the title.
+ * - label: The label for the field.
+ * - multiple: TRUE if a field can contain multiple items.
+ * - items: List of all the field items. Each item contains:
+ *   - attributes: List of HTML attributes for each item.
+ *   - content: The field item's content.
+ * - entity_type: The entity type to which the field belongs.
+ * - field_name: The name of the field.
+ * - field_type: The type of the field.
+ * - label_display: The display settings for the label.
+ *
+ *
+ * @see template_preprocess_field()
+ */
+#}
+{%
+  set classes = [
+    'field',
+    'field--name-' ~ field_name|clean_class,
+    'field--type-' ~ field_type|clean_class,
+    'field--label-' ~ label_display,
+  ]
+%}
+{%
+  set title_classes = [
+    '',
+    label_display == 'visually_hidden' ? 'visually-hidden',
+  ]
+%}
+
+
+<style>
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); // Adjust the min size as needed
+  gap: 16px; // Space between grid items
+}
+
+.grid-item {
+  background: #f5f5f5; // Add a background color
+  padding: 20px;       // Add padding inside the item
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-align: center;  // Center text or content
+}
+
+
+</style>
+
+
+<ul>
+  <li data-filter="all"> All </li>
+  <li data-filter="1"> Green </li>
+  <li data-filter="2"> Orange </li>
+  <li data-filter="3"> Purple </li>
+  <li data-filter="1, 2"> Mix </li>
+</ul>
+
+{% if label_hidden %}
+  {% if multiple %}
+    <div{{ attributes.addClass(classes, 'filter-container') }}>
+      {% for item in items %}
+        <div{{ item.attributes.addClass('filtr-item, grid-item') }}>{{ item.content }}</div>
+      {% endfor %}
+    </div>
+  {% else %}
+    {% for item in items %}
+      <div{{ attributes.addClass(classes, 'filtr-item, grid-item') }}>{{ item.content }}</div>
+    {% endfor %}
+  {% endif %}
+{% else %}
+  <div{{ attributes.addClass(classes) }}>
+    <div{{ title_attributes.addClass(title_classes) }}>{{ label }}</div>
+    {% if multiple %}
+      <div class='filter-container grid-container'>
+    {% endif %}
+    {% set i = 1 %}
+    {% for item in items %}
+      <div{{ item.attributes.addClass('filtr-item, grid-item') }} data-category="{{i}}" data-sort="value">
+        {{ item.content }}
+      </div>
+    {% set i = i + 1 %}
+    {% if i == 4 %}
+      {% set i = 1 %}
+    {% endif %}
+    
+    {% endfor %}
+    {% if multiple %}
+      </div>
+    {% endif %}
+  </div>
+{% endif %}

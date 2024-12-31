@@ -12,8 +12,8 @@
     	AOS.init();
 
       if ($('.rellax', context).length) {
-        new Rellax('.rellax', {                    
-        });
+        new Rellax('.rellax', {    
+        });        
       }
     },
   };

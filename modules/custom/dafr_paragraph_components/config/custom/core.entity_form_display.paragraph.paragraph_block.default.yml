@@ -1,0 +1,222 @@
+uuid: b462ef83-4fa0-47fc-9a8f-1a97dd6ecd4a
+langcode: pl
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.paragraph_block.field_animate
+    - field.field.paragraph.paragraph_block.field_animate_delay
+    - field.field.paragraph.paragraph_block.field_animate_duration
+    - field.field.paragraph.paragraph_block.field_block
+    - field.field.paragraph.paragraph_block.field_classes
+    - field.field.paragraph.paragraph_block.field_container
+    - field.field.paragraph.paragraph_block.field_id
+    - field.field.paragraph.paragraph_block.field_mb
+    - field.field.paragraph.paragraph_block.field_ml
+    - field.field.paragraph.paragraph_block.field_mr
+    - field.field.paragraph.paragraph_block.field_mt
+    - field.field.paragraph.paragraph_block.field_pb
+    - field.field.paragraph.paragraph_block.field_pl
+    - field.field.paragraph.paragraph_block.field_pr
+    - field.field.paragraph.paragraph_block.field_pt
+    - paragraphs.paragraphs_type.paragraph_block
+  module:
+    - field_group
+third_party_settings:
+  field_group:
+    group_margins_paddings:
+      children:
+        - group_margins
+        - group_paddings
+      label: 'Marginesy i odstępy'
+      region: content
+      parent_name: ''
+      weight: 5
+      format_type: fieldset
+      format_settings:
+        classes: paragraph-group
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
+    group_margins:
+      children:
+        - field_mt
+        - field_mb
+        - field_ml
+        - field_mr
+      label: ''
+      region: content
+      parent_name: group_margins_paddings
+      weight: 16
+      format_type: fieldset
+      format_settings:
+        classes: paragraph-margins
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
+    group_paddings:
+      children:
+        - field_pt
+        - field_pb
+        - field_pl
+        - field_pr
+      label: ''
+      region: content
+      parent_name: group_margins_paddings
+      weight: 17
+      format_type: fieldset
+      format_settings:
+        classes: paragraph-paddings
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
+    group_custom_id:
+      children:
+        - field_id
+        - field_classes
+      label: 'ID i dodatkowe klasy css'
+      region: content
+      parent_name: ''
+      weight: 7
+      format_type: fieldset
+      format_settings:
+        classes: 'paragraph-group group-flex'
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
+    group_animacja:
+      children:
+        - field_animate
+        - field_animate_duration
+        - field_animate_delay
+      label: Animacja
+      region: content
+      parent_name: ''
+      weight: 6
+      format_type: fieldset
+      format_settings:
+        classes: 'paragraph-group group-flex'
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
+id: paragraph.paragraph_block.default
+targetEntityType: paragraph
+bundle: paragraph_block
+mode: default
+content:
+  field_animate:
+    type: options_select
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_animate_delay:
+    type: number
+    weight: 3
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_animate_duration:
+    type: number
+    weight: 2
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_block:
+    type: options_select
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_classes:
+    type: string_textfield
+    weight: 6
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_container:
+    type: options_select
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_id:
+    type: string_textfield
+    weight: 5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_mb:
+    type: number
+    weight: 10
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_ml:
+    type: number
+    weight: 11
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_mr:
+    type: number
+    weight: 12
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_mt:
+    type: number
+    weight: 9
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_pb:
+    type: number
+    weight: 16
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_pl:
+    type: number
+    weight: 17
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_pr:
+    type: number
+    weight: 18
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_pt:
+    type: number
+    weight: 15
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

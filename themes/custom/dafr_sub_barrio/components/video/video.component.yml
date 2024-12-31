@@ -1,0 +1,26 @@
+'$schema': 'https://git.drupalcode.org/project/drupal/-/raw/10.1.x/core/modules/sdc/src/metadata.schema.json'
+name: video
+status: stable
+props:
+  type: object
+  properties: 
+    video_link:
+      title: link to video
+      description: The URL for the image.
+      type: string
+      format: uri
+      examples:
+        - ''
+    height:
+      title: height
+      description: The height of the video.
+      type: string
+      examples:
+        - '100%'
+
+slots:
+  bg_image:
+      type: string
+      title: bg_image
+      description: The URL for the image.      
+      format: uri

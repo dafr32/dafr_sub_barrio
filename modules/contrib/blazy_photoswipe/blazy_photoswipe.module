@@ -1,0 +1,156 @@
+<?php
+
+/**
+ * @file
+ * Provides a simple Blazy PhotoSwipe integration.
+ */
+
+/**
+ * Implements hook_library_info_alter().
+ */
+function blazy_photoswipe_library_info_alter(&$libraries, $extension) {
+  if ($extension === 'blazy_photoswipe') {
+    $five = _blazy_photoswipe_is_5();
+
+    // Only PS4 is dependable. PS5 is not due to changed photoswipe_theme(),
+    // and ES6 dynamic library dependency injection.
+    // Supporting both cause failing upgrade status for minor difference.
+    if (!$five && $library = blazy()->getLibrariesPath('photoswipe')) {
+      $dist = '/' . $library . '/dist';
+      $libraries['load']['js'] = [
+        $dist . '/photoswipe.min.js' => ['minified' => TRUE],
+        $dist . '/photoswipe-ui-default.min.js' => ['minified' => TRUE],
+        'js/blazy.photoswipe.min.js' => ['minified' => TRUE],
+      ];
+
+      $libraries['load']['css']['base'][$dist . '/photoswipe.css'] = [];
+      $libraries['load']['css']['base'][$dist . '/default-skin/default-skin.css'] = [];
+    }
+  }
+}
+
+/**
+ * Implements hook_blazy_attach_alter().
+ */
+function blazy_photoswipe_blazy_attach_alter(array &$load, array $attach = []) {
+  if (_blazy_photoswipe_is_applicable($attach)) {
+    $five   = _blazy_photoswipe_is_5();
+    $path   = blazy()->getLibrariesPath('photoswipe', TRUE);
+    $exists = blazy()->moduleExists('photoswipe');
+
+    $load['library'][] = $five ? 'blazy_photoswipe/load5' : 'blazy_photoswipe/load';
+
+    // Both PS4 and PS5 have usable options, if any exists..
+    $options = $exists ? blazy()->config('options', 'photoswipe.settings') : [];
+    if ($five) {
+      $options = array_merge(_blazy_photoswipe_5_options(), $options);
+    }
+
+    $options['version'] = $five ? 5 : 4;
+
+    // Allow other modules to alter / extend the options to pass to photoswipe.
+    blazy()->moduleHandler()->alter('blazy_photoswipe_js_options', $options);
+
+    $load['drupalSettings']['photoswipe']['options'] = $options;
+    $load['drupalSettings']['photoswipe']['path'] = $path;
+  }
+}
+
+/**
+ * Implements hook_blazy_lightboxes_alter().
+ */
+function blazy_photoswipe_blazy_lightboxes_alter(array &$lightboxes) {
+  $lightboxes[] = 'photoswipe';
+}
+
+/**
+ * Implements hook_blazy_settings_alter().
+ */
+function blazy_photoswipe_blazy_settings_alter(array &$build, $items) {
+  $settings = &$build['#settings'];
+  $blazies = $settings['blazies'] ?? NULL;
+
+  // Tell Blazy we are supporting rich box: local video within lightbox.
+  if ($blazies && _blazy_photoswipe_is_applicable($settings)) {
+    $blazies->set('is.richbox', TRUE)
+      ->set('is.encodedbox', TRUE);
+  }
+}
+
+/**
+ * Implements hook_config_schema_info_alter().
+ */
+function blazy_photoswipe_config_schema_info_alter(array &$definitions) {
+  if (isset($definitions['blazy.settings'])) {
+    $definitions['blazy.settings']['mapping']['extras']['mapping']['photoswipe']['type'] = 'integer';
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function blazy_photoswipe_form_blazy_settings_form_alter(array &$form, $form_state) {
+  $settings = blazy()->config();
+  $form['extras']['#access'] = TRUE;
+  $form['extras']['photoswipe'] = [
+    '#type'          => 'select',
+    '#title'         => t('PhotoSwipe'),
+    '#options'       => [5 => t('PhotoSwipe 5')],
+    '#empty_option'  => t('PhotoSwipe 4'),
+    '#default_value' => $settings['extras']['photoswipe'] ?? '',
+    '#description'   => t('Switch to PhotoSwipe 5. Default is PhotoSwipe 4. Check out /admin/help/blazy_photoswipe for howtos. Clear cache. See #3214672, #3256023'),
+  ];
+}
+
+/**
+ * Implements hook_help().
+ */
+function blazy_photoswipe_help($route_name) {
+  if ($route_name == 'help.page.blazy_photoswipe') {
+    $output = file_get_contents(dirname(__FILE__) . '/README.md');
+    return blazy()->markdown($output);
+  }
+  return '';
+}
+
+/**
+ * Checks whether media switch is using photoswipe.
+ */
+function _blazy_photoswipe_is_applicable(array $settings): bool {
+  $switch = $settings['media_switch'] ?? NULL;
+  return $switch == 'photoswipe';
+}
+
+/**
+ * Checks for PS 5 option via Blazy UI under Extras.
+ */
+function _blazy_photoswipe_is_5(): bool {
+  $config = blazy()->config();
+  $extras = (int) ($config['extras']['photoswipe'] ?? -1);
+  return $extras == 5;
+}
+
+/**
+ * Returns minimal default options.
+ *
+ * @see https://photoswipe.com/options/
+ */
+function _blazy_photoswipe_5_options(): array {
+  return [
+    'showAnimationDuration' => 333,
+    'hideAnimationDuration' => 333,
+    'showHideAnimationType' => 'zoom',
+    'bgOpacity' => 0.97,
+    'spacing' => 0.12,
+    'allowPanToNext' => TRUE,
+    'maxZoomLevel' => 2,
+    'maxWidthToAnimate' => 800,
+    'modal' => TRUE,
+    'loop' => TRUE,
+    'preload' => [1, 2],
+    'pinchToClose' => TRUE,
+    'closeOnVerticalDrag' => TRUE,
+    'escKey' => TRUE,
+    'arrowKeys' => TRUE,
+  ];
+}

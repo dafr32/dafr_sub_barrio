@@ -1,0 +1,31 @@
+load:
+  js:
+    js/blazy.photoswipe.min.js: { minified: true }
+  css:
+    theme:
+      css/blazy.photoswipe.theme.css: {}
+  dependencies:
+    - blazy/dblazy
+    - blazy/media
+
+# At least the photoswipe.css should be inlined to avoid FOUC.
+photoswipe:
+  remote: https://github.com/dimsemenov/PhotoSwipe/archive/refs/heads/v5-beta.zip
+  license:
+    name: MIT
+    url: https://github.com/dimsemenov/PhotoSwipe/blob/v5-beta/LICENSE
+    gpl-compatible: true
+  css:
+    base:
+      /libraries/photoswipe/dist/photoswipe.css: {}
+
+load5:
+  js:
+    js/blazy.photoswipe5.min.js: { minified: true }
+  css:
+    theme:
+      css/blazy.photoswipe.theme.css: {}
+  dependencies:
+    - blazy/dblazy
+    - blazy/media
+    - blazy_photoswipe/photoswipe

@@ -1,0 +1,11 @@
+services:
+  custom_login_url.route_subscriber:
+    class: Drupal\custom_login_url\Routing\RouteSubscriber
+    tags:
+    - { name: event_subscriber }
+
+  custom_login_url.event_subscriber:
+    class: \Drupal\custom_login_url\KernelSubscriber\KernelSubscriber
+    arguments: ['@current_route_match']
+    tags:
+      - { name: event_subscriber }

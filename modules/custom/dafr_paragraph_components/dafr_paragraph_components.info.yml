@@ -1,0 +1,18 @@
+name: 'DAFR Paragraph Components'
+type: module
+description: 'Moduł tworzący Komponetny.'
+core_version_requirement: ^10 || ^11
+package: DAFR
+dependencies:
+  - paragraphs
+  - field
+  - field_group
+  - layout_paragraphs
+  - color_field
+  - imce
+  - layout_builder
+  - slick
+  - slick_views
+  - viewsreference
+  - entity_reference_revisions
+

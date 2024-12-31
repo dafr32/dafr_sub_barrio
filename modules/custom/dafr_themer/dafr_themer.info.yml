@@ -1,6 +1,6 @@
 name: 'Custom DAFR Themer'
 type: module
 description: 'Custom DAFR themer'
-package: DAFR
+package: Dafr
 core_version_requirement: ^10 || ^11
 version: '1.0.0'

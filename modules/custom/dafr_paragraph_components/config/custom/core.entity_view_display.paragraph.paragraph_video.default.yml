@@ -1,0 +1,48 @@
+uuid: 673dc295-b7a4-456e-b3ee-462ba7e0465b
+langcode: pl
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.paragraph_video.field_bg_image
+    - field.field.paragraph.paragraph_video.field_height
+    - field.field.paragraph.paragraph_video.field_video_url
+    - paragraphs.paragraphs_type.paragraph_video
+  module:
+    - svg_image
+id: paragraph.paragraph_video.default
+targetEntityType: paragraph
+bundle: paragraph_video
+mode: default
+content:
+  field_bg_image:
+    type: image
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_height:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_video_url:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

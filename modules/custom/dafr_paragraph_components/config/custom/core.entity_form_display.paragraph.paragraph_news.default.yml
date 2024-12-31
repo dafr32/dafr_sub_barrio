@@ -1,0 +1,198 @@
+uuid: e245ec08-465c-4054-a536-59bbc5231b7f
+langcode: pl
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.paragraph_news.field_classes
+    - field.field.paragraph.paragraph_news.field_container
+    - field.field.paragraph.paragraph_news.field_id
+    - field.field.paragraph.paragraph_news.field_mb
+    - field.field.paragraph.paragraph_news.field_ml
+    - field.field.paragraph.paragraph_news.field_mr
+    - field.field.paragraph.paragraph_news.field_mt
+    - field.field.paragraph.paragraph_news.field_pb
+    - field.field.paragraph.paragraph_news.field_pl
+    - field.field.paragraph.paragraph_news.field_pr
+    - field.field.paragraph.paragraph_news.field_pt
+    - field.field.paragraph.paragraph_news.field_widok
+    - paragraphs.paragraphs_type.paragraph_news
+  module:
+    - field_group
+    - viewsreference
+third_party_settings:
+  field_group:
+    group_margins_paddings:
+      children:
+        - group_margins
+        - group_paddings
+      label: 'Marginesy i odstępy'
+      region: content
+      parent_name: ''
+      weight: 4
+      format_type: fieldset
+      format_settings:
+        classes: paragraph-group
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
+    group_margins:
+      children:
+        - field_mt
+        - field_mb
+        - field_ml
+        - field_mr
+      label: ''
+      region: content
+      parent_name: group_margins_paddings
+      weight: 14
+      format_type: fieldset
+      format_settings:
+        classes: paragraph-margins
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
+    group_paddings:
+      children:
+        - field_pt
+        - field_pb
+        - field_pl
+        - field_pr
+      label: ''
+      region: content
+      parent_name: group_margins_paddings
+      weight: 15
+      format_type: fieldset
+      format_settings:
+        classes: paragraph-paddings
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
+    group_custom_id:
+      children:
+        - field_id
+        - field_classes
+      label: 'ID i własne klasy css'
+      region: content
+      parent_name: ''
+      weight: 5
+      format_type: fieldset
+      format_settings:
+        classes: 'paragraph-group group-flex'
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
+    group_ustawienia:
+      children:
+        - field_container
+      label: Ustawienia
+      region: content
+      parent_name: ''
+      weight: 1
+      format_type: fieldset
+      format_settings:
+        classes: 'paragraph-group group-flex'
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
+id: paragraph.paragraph_news.default
+targetEntityType: paragraph
+bundle: paragraph_news
+mode: default
+content:
+  field_classes:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_container:
+    type: options_select
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_id:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 40
+      placeholder: ''
+    third_party_settings: {  }
+  field_mb:
+    type: number
+    weight: 7
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_ml:
+    type: number
+    weight: 8
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_mr:
+    type: number
+    weight: 9
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_mt:
+    type: number
+    weight: 6
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_pb:
+    type: number
+    weight: 17
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_pl:
+    type: number
+    weight: 18
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_pr:
+    type: number
+    weight: 19
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_pt:
+    type: number
+    weight: 16
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_widok:
+    type: viewsreference_select
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

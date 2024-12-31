@@ -1,0 +1,62 @@
+uuid: 5ab053d4-cd38-4dc6-b845-a7bfed54ef8a
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.card
+    - field.field.node.article.body
+    - field.field.node.article.field_image
+    - field.field.node.article.field_image_gallery
+    - field.field.node.article.field_image_gallery_grid
+    - field.field.node.article.field_tags
+    - image.style.style_5_x_3_5
+    - node.type.article
+  module:
+    - layout_builder
+    - svg_image
+    - text
+    - user
+third_party_settings:
+  layout_builder:
+    enabled: false
+    allow_custom: false
+_core:
+  default_config_hash: br6izr-iGEu--JvNbCJNtOBpRnxpFLXfoV5y61U9Nqc
+id: node.article.card
+targetEntityType: node
+bundle: article
+mode: card
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 200
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_image:
+    type: image
+    label: hidden
+    settings:
+      image_link: content
+      image_style: style_5_x_3_5
+      image_loading:
+        attribute: eager
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden:
+  field_image_gallery: true
+  field_image_gallery_grid: true
+  field_tags: true
+  langcode: true

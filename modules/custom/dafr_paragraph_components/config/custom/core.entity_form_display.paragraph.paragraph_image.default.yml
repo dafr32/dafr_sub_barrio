@@ -1,0 +1,80 @@
+uuid: 7bc9321c-5949-433e-8bbe-085b7f2ae12e
+langcode: pl
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.paragraph_image.field_align
+    - field.field.paragraph.paragraph_image.field_animate
+    - field.field.paragraph.paragraph_image.field_animate_delay
+    - field.field.paragraph.paragraph_image.field_animate_duration
+    - field.field.paragraph.paragraph_image.field_bg_image
+    - image.style.thumbnail
+    - paragraphs.paragraphs_type.paragraph_image
+  module:
+    - field_group
+    - imce
+    - svg_image
+third_party_settings:
+  field_group:
+    group_ustawienia:
+      children:
+        - field_align
+        - field_animate
+        - field_animate_duration
+        - field_animate_delay
+      label: Ustawienia
+      region: content
+      parent_name: ''
+      weight: 1
+      format_type: fieldset
+      format_settings:
+        classes: 'paragraph-group group-flex'
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
+id: paragraph.paragraph_image.default
+targetEntityType: paragraph
+bundle: paragraph_image
+mode: default
+content:
+  field_align:
+    type: options_select
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_animate:
+    type: options_select
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_animate_delay:
+    type: number
+    weight: 5
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_animate_duration:
+    type: number
+    weight: 4
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_bg_image:
+    type: image_image
+    weight: 0
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings:
+      imce:
+        enabled: true
+hidden:
+  created: true
+  status: true

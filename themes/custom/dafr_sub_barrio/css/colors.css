@@ -18,8 +18,8 @@ body {
   background-color: #055a8e;
 }
 
-#navbar-main {
-  background-color: #1d84c3;
+.header1 #navbar-main{
+    background-color: #333333;
 }
 
 a,
@@ -71,11 +71,6 @@ a:active,
 .btn-primary:hover,
 .btn-primary:focus {
   background-color: #0256b1;
-}
-
-.site-footer {
-  background: #292929;
-  /* background: transparent; */
 }
 
 .region-header,

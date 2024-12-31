@@ -1,0 +1,62 @@
+uuid: b4e4c746-d053-4ed0-afaf-51d491d582f6
+langcode: pl
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.paragraph_video.field_bg_image
+    - field.field.paragraph.paragraph_video.field_height
+    - field.field.paragraph.paragraph_video.field_video_url
+    - image.style.thumbnail
+    - paragraphs.paragraphs_type.paragraph_video
+  module:
+    - field_group
+    - svg_image
+third_party_settings:
+  field_group:
+    group_ustawienia:
+      children:
+        - field_bg_image
+        - field_height
+      label: Ustawienia
+      region: content
+      parent_name: ''
+      weight: 1
+      format_type: fieldset
+      format_settings:
+        classes: 'paragraph-group group-flex'
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+id: paragraph.paragraph_video.default
+targetEntityType: paragraph
+bundle: paragraph_video
+mode: default
+content:
+  field_bg_image:
+    type: image_image
+    weight: 1
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+  field_height:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_video_url:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

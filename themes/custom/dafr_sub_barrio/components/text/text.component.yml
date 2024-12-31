@@ -1,0 +1,17 @@
+'$schema': 'https://git.drupalcode.org/project/drupal/-/raw/10.1.x/core/modules/sdc/src/metadata.schema.json'
+name: text
+status: stable
+props:
+  type: object
+  properties:
+    bg_color:
+      type: string
+      title: bg_color      
+    text_color:    
+      type: string
+      title: text_color
+
+slots:
+  content:
+    title: content
+  

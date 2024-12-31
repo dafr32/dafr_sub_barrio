@@ -1,0 +1,159 @@
+uuid: c6e43005-2868-456b-80af-91a8e08323d0
+langcode: pl
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.paragraph_news.field_animate
+    - field.field.paragraph.paragraph_news.field_animate_delay
+    - field.field.paragraph.paragraph_news.field_animate_duration
+    - field.field.paragraph.paragraph_news.field_classes
+    - field.field.paragraph.paragraph_news.field_container
+    - field.field.paragraph.paragraph_news.field_id
+    - field.field.paragraph.paragraph_news.field_mb
+    - field.field.paragraph.paragraph_news.field_ml
+    - field.field.paragraph.paragraph_news.field_mr
+    - field.field.paragraph.paragraph_news.field_mt
+    - field.field.paragraph.paragraph_news.field_pb
+    - field.field.paragraph.paragraph_news.field_pl
+    - field.field.paragraph.paragraph_news.field_pr
+    - field.field.paragraph.paragraph_news.field_pt
+    - field.field.paragraph.paragraph_news.field_widok
+    - paragraphs.paragraphs_type.paragraph_news
+  module:
+    - options
+    - viewsreference
+id: paragraph.paragraph_news.default
+targetEntityType: paragraph
+bundle: paragraph_news
+mode: default
+content:
+  field_animate:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_animate_delay:
+    type: number_integer
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_animate_duration:
+    type: number_integer
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_classes:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_container:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_id:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_mb:
+    type: number_integer
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_ml:
+    type: number_integer
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_mr:
+    type: number_integer
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_mt:
+    type: number_integer
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_pb:
+    type: number_integer
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_pl:
+    type: number_integer
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_pr:
+    type: number_integer
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_pt:
+    type: number_integer
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_widok:
+    type: viewsreference_formatter
+    label: hidden
+    settings:
+      plugin_types:
+        - block
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

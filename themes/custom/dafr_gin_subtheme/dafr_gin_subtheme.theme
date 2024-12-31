@@ -1,0 +1,87 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+
+/**
+ * Implements hook_form_alter().
+ */
+function dafr_gin_subtheme_form_alter(array &$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  // Sprawdź, czy formularz to formularz węzła (node form).
+  if (strpos($form_id, 'node_') === 0 && strpos($form_id, '_edit_form') !== false) {
+    // Dodaj bibliotekę Bootstrap.
+    $form['#attached']['library'][] = 'dafr_gin_subtheme/bootstrap';
+  }
+}
+
+
+function dafr_gin_subtheme_preprocess_paragraph(array &$variables) {
+  \Drupal::logger('paragraph')->debug('OK');
+  $paragraph = $variables['paragraph'];
+
+  // Obsługa kolorów dla 'field_text_color' i 'field_bg_color'.
+  foreach (['field_text_color', 'field_bg_color'] as $field_name) {
+    if ($paragraph->hasField($field_name)) {
+      $field_value = $paragraph->get($field_name)->getValue();
+      if (!empty($field_value) && isset($field_value[0]['color'])) {
+        $hex_color = $field_value[0]['color']; // Kolor w formacie HEX
+        $opacity = isset($field_value[0]['opacity']) ? $field_value[0]['opacity'] : 1; // Przezroczystość
+
+        // Konwersja na RGBA
+        $converted_color = dafr_gin_subtheme_hex_to_rgba($hex_color, $opacity);
+
+        // Zapisz wynik w odpowiednim polu
+        $variables['content'][$field_name][0]['#markup'] = $converted_color;
+
+        // Logowanie
+        // \Drupal::logger('text')->debug('Converted @field color: @color', ['@field' => $field_name, '@color' => $converted_color]);
+      }
+    }
+  }
+
+  // pola tytułowe
+  foreach (['field_title', 'field_title2', 'field_title_span', 'field_subtitle'] as $field_name) {
+    \Drupal::logger('paragraph')->debug('OK');
+    if ($paragraph->hasField($field_name)) {
+      $field_value = $paragraph->get($field_name)->getValue();
+      if (!empty($field_value) && isset($field_value[0]['value'])) {
+        $original_value = $variables['content'][$field_name][0]['#context']['value'];
+
+        $variables['content'][$field_name][0] = [
+            '#markup' => $original_value,
+            '#allowed_tags' => ['br'], // Dozwolone tagi HTML
+        ];
+      }
+    }
+  }
+
+}
+
+
+/**
+ * Funkcja konwertująca kolor z formatu HEX na RGBA.
+ *
+ * @param string $hex
+ *   Kolor w formacie HEX, np. "#ffffff".
+ * @param float $alpha
+ *   Wartość przezroczystości (alfa) w zakresie od 0 do 1.
+ *
+ * @return string
+ *   Kolor w formacie RGBA, np. "rgba(255, 255, 255, 1)".
+ */
+function dafr_gin_subtheme_hex_to_rgba($hex, $alpha = 1) {
+  // Usuń '#' jeśli jest obecny.
+  $hex = ltrim($hex, '#');
+
+  // Jeśli kolor jest 3-znakowy, rozszerz go do 6-znakowego.
+  if (strlen($hex) == 3) {
+    $hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
+  }
+
+  // Pobierz składniki RGB.
+  list($r, $g, $b) = sscanf($hex, "%02x%02x%02x");
+
+  // Zwróć kolor w formacie RGBA.
+  return "rgba($r, $g, $b, $alpha)";
+}

@@ -1,0 +1,17 @@
+<div
+	{{ attributes }}>
+	{# Keep the outer div whenever possible it is a nice way to ensure the presence of "attributes" #}
+	{% block example_block %}
+		<div class="play-video">
+			<div class="content-video">
+				<a class="popup-video gsc-video-link" href="{{ video_link }}">
+					<span class="icon">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-fill" viewbox="0 0 16 16">
+							<path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"/>
+						</svg>
+					</span>
+				</a>
+			</div>
+		</div>
+	{% endblock %}
+</div>

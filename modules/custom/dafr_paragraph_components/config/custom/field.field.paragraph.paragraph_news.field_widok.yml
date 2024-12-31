@@ -1,0 +1,34 @@
+uuid: a91ffabd-fc9a-425d-96dd-4e5d96ba9726
+langcode: pl
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_widok
+    - paragraphs.paragraphs_type.paragraph_news
+  module:
+    - viewsreference
+id: paragraph.paragraph_news.field_widok
+field_name: field_widok
+entity_type: paragraph
+bundle: paragraph_news
+label: Widok
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:view'
+  handler_settings:
+    target_bundles: null
+    auto_create: false
+  plugin_types:
+    block: block
+  preselect_views:
+    news: news
+  enabled_settings:
+    title: title
+    limit: limit
+    header: header
+    pager: pager
+field_type: viewsreference

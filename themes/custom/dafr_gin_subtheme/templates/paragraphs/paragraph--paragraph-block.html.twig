@@ -1,0 +1,48 @@
+{%
+  set classes = [
+    'paragraph',
+    'paragraph--type--' ~ paragraph.bundle|clean_class,
+    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+    not paragraph.isPublished() ? 'paragraph--unpublished'
+  ]
+%}
+
+
+{# Margin settings #}
+{% set mt = content.field_mt[0]['#markup'] is not null ? 'margin-top:' ~ content.field_mt[0]['#markup'] ~ 'px; ' : '' %}
+{% set mb = content.field_mb[0]['#markup'] is not null ? 'margin-bottom:' ~ content.field_mb[0]['#markup'] ~ 'px; ' : '' %}
+{% set ml = content.field_ml[0]['#markup'] is not null ? 'margin-left:' ~ content.field_ml[0]['#markup'] ~ 'px; ' : '' %}
+{% set mr = content.field_mr[0]['#markup'] is not null ? 'margin-right:' ~ content.field_mr[0]['#markup'] ~ 'px; ' : '' %}
+
+{# Padding settings #}
+{% set pt = content.field_pt[0]['#markup'] is not null ? 'padding-top:' ~ content.field_pt[0]['#markup'] ~ 'px; ' : '' %}
+{% set pb = content.field_pb[0]['#markup'] is not null ? 'padding-bottom:' ~ content.field_pb[0]['#markup'] ~ 'px; ' : '' %}
+{% set pl = content.field_pl[0]['#markup'] is not null ? 'padding-left:' ~ content.field_pl[0]['#markup'] ~ 'px; ' : '' %}
+{% set pr = content.field_pr[0]['#markup'] is not null ? 'padding-right:' ~ content.field_pr[0]['#markup'] ~ 'px; ' : '' %}
+
+{% set id = content.field_id[0]['#context']['value'] is not null ? 'id="' ~ content.field_id[0]['#context']['value'] ~ '" ': '' %}
+{% set class = content.field_classes[0]['#context']['value'] is not null ? content.field_classes[0]['#context']['value'] : '' %}
+
+{% set container_style = content.field_container[0]['#markup'] %}
+
+{% if container_style == "container (1320px)" %}
+	{% set kont = 'container' %}
+{% elseif container_style == "container-XL (1520px)" %}
+	{% set kont = 'container-xl' %}
+{% elseif container_style == "container-XXL (1720px)" %}
+	{% set kont = 'container-xxl' %}
+{% elseif container_style == "full-width" %}
+	{% set kont = 'full-width' %}
+{% else %}
+	{% set kont = '' %}
+{% endif %}
+
+{% block paragraph %}
+	<div{{attributes.addClass(classes)}}>
+		{% block content %}
+			<div {{id}} class="{{kont}} {{class}} {{display}}" style="{{ mt ~ mb ~ ml ~ mr ~ pt ~ pb ~ pl ~ pr }}">
+				{{ content.field_block }}
+			</div>
+		{% endblock %}
+	</div>
+{% endblock paragraph %}

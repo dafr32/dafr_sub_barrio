@@ -22,11 +22,9 @@ set classes = [
 %}
 
 
-<div class="{{ classes_animation }}">
-  <figure>
+<figure class="text-center {{ classes_animation }}">
     <img{{ attributes.addClass(classes) }} />
     {% if attributes.title %}
       <figcaption> {{ attributes.title}}    </figcaption>
     {% endif %}    
-  </figure>  
-</div>
+</figure>  

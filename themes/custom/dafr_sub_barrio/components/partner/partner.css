@@ -1,0 +1,43 @@
+[data-component-id="b5sub_dafr:partner"] {
+  /* @todo Add your styles here. */
+}
+
+.grid.list-group-item {
+  border: 0;
+}
+
+
+.wspolpraca .view-content.row {
+  justify-content: center;
+}
+
+.sdc-partner {  
+    width: 100%;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.sdc-partner a {
+  height: 100%;
+}
+.sdc-partner .logo {
+  display: flex;    
+  justify-content: center;    
+  align-items: center;    
+  max-width: 170px;
+  max-height: 90px;
+  padding: 10px;
+}
+
+.sdc-partner .logo img {
+  object-fit: cover;
+  max-height: 60px;
+  height: 60px;  
+}
+
+@media screen and (max-width:1024px) {
+  .sdc-partner .logo {
+      max-width: 150px;
+  }
+}

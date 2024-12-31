@@ -173,11 +173,13 @@ function dafr_sub_barrio_preprocess_page(&$variables) {
 
 
     // Container
+     
     if ($node = \Drupal::request()->attributes->get('node')) {
       if(is_object($node)){
+        // \Drupal::logger('container')->notice('node');
         if($node->hasField('dafr_node_layout')){
           $layout = $node->get('dafr_node_layout')->value;
-          \Drupal::logger('container')->notice(''. $layout);
+          // \Drupal::logger('container')->notice(''. $layout);
           if($layout){
             if($layout == 'fw'){
               $variables['container_main'] = 'full-width';
@@ -192,7 +194,6 @@ function dafr_sub_barrio_preprocess_page(&$variables) {
     }
         
 } 
-
 
 function dafr_sub_barrio_preprocess_block__system_breadcrumb_block(&$variables){
   $styles = array();
@@ -248,21 +249,123 @@ function dafr_sub_barrio_preprocess_block__system_breadcrumb_block(&$variables){
    $variables['breadcrumb_title'] = $title;
 }
 
-/**
- * Implements hook_preprocess_HOOK() for block templates.
- */
-function dafr_sub_barrio_preprocess_block__block_dafr_banner_block(&$variables) {
-  // Sprawdź, czy blok zawiera klucz #block_content
-  if (isset($variables['elements']['content']['#block_content'])) {
-    $block = $variables['elements']['content']['#block_content'];
-    $variables['container_key'] = $block->get('container')->value;
-    $variables['align_key'] = $block->get('field_align')->value;
-    $variables['valign_key'] = $block->get('field_valign')->value;
+function dafr_sub_barrio_preprocess_node(&$variables) {
+  $node = $variables['node'];
+  \Drupal::logger('node')->debug('node1');
+  foreach (['field_text_color', 'field_bg_color'] as $field_name) {
+    if ($node->hasField($field_name)) {
+      \Drupal::logger('node')->debug('node2');
+      $field_value = $node->get($field_name)->getValue();
+      if (!empty($field_value) && isset($field_value[0]['color'])) {
+        $hex_color = $field_value[0]['color']; // Kolor w formacie HEX
+        $opacity = isset($field_value[0]['opacity']) ? $field_value[0]['opacity'] : 1; // Przezroczystość
 
-    // Dodanie logowania po przypisaniu wartości
-    // \Drupal::logger('dafr_banner_block')->notice('Field align value: ' . $variables['field_align']);
-  } else {
-    // \Drupal::logger('dafr_banner_block')->warning('Block content not set or does not match.');
+        // Konwersja na RGBA
+        $converted_color = dafr_sub_barrio_hex_to_rgba($hex_color, $opacity);
+
+        // Zapisz wynik w odpowiednim polu
+        $variables['content'][$field_name][0]['#markup'] = $converted_color;
+
+        // Logowanie
+        \Drupal::logger('text')->debug('Converted @field color: @color', ['@field' => $field_name, '@color' => $converted_color]);
+      }
+    }
   }
 }
 
+/**
+ * Implements hook_preprocess_HOOK() for block templates.
+ * Konwersja pól tytułowych aby rozpoznawały <br>
+ * Zamiana kolorów z field_color na rgba
+ */
+
+function dafr_sub_barrio_preprocess_paragraph(array &$variables) {
+  // \Drupal::logger('paragraph')->debug('OK');
+  $paragraph = $variables['paragraph'];
+
+  // Obsługa kolorów dla 'field_text_color' i 'field_bg_color'.
+  foreach (['field_text_color', 'field_bg_color'] as $field_name) {
+    if ($paragraph->hasField($field_name)) {
+      $field_value = $paragraph->get($field_name)->getValue();
+      if (!empty($field_value) && isset($field_value[0]['color'])) {
+        $hex_color = $field_value[0]['color']; // Kolor w formacie HEX
+        $opacity = isset($field_value[0]['opacity']) ? $field_value[0]['opacity'] : 1; // Przezroczystość
+
+        // Konwersja na RGBA
+        $converted_color = dafr_sub_barrio_hex_to_rgba($hex_color, $opacity);
+
+        // Zapisz wynik w odpowiednim polu
+        $variables['content'][$field_name][0]['#markup'] = $converted_color;
+
+        // Logowanie
+        // \Drupal::logger('text')->debug('Converted @field color: @color', ['@field' => $field_name, '@color' => $converted_color]);
+      }
+    }
+  }
+
+  // pola tytułowe
+  foreach (['field_title', 'field_title2', 'field_title_span', 'field_subtitle'] as $field_name) {    
+    if ($paragraph->hasField($field_name)) {
+      $field_value = $paragraph->get($field_name)->getValue();
+      if (!empty($field_value) && isset($field_value[0]['value'])) {
+        $original_value = $variables['content'][$field_name][0]['#context']['value'];
+
+        $variables['content'][$field_name][0] = [
+            '#markup' => $original_value,
+            '#allowed_tags' => ['br'], // Dozwolone tagi HTML
+        ];
+      }
+    }
+  }
+
+  //animacje
+  // Pobierz wartość pola.    
+  foreach (['field_animate', 'field_animate_content'] as $field_name) {
+    if ($paragraph->hasField($field_name)) {
+      $field_value = $paragraph->get($field_name)->value;
+      $variables['content'][$field_name][0] = [
+        '#markup' => $field_value,
+      ];
+    }
+  }
+  // if ($paragraph && $paragraph->hasField('field_animate')) {
+  //   $field_value = $paragraph->get('field_animate')->value;  
+  //   $variables['content']['field_animate'][0] = [
+  //     '#markup' => $field_value,
+  //   ];
+  // }
+
+  
+// Wyświetl wartość.
+// \Drupal::logger('custom')->notice('Wartość pola: @value', ['@value' => $field_value]);
+
+
+}
+
+
+/**
+ * Funkcja konwertująca kolor z formatu HEX na RGBA.
+ *
+ * @param string $hex
+ *   Kolor w formacie HEX, np. "#ffffff".
+ * @param float $alpha
+ *   Wartość przezroczystości (alfa) w zakresie od 0 do 1.
+ *
+ * @return string
+ *   Kolor w formacie RGBA, np. "rgba(255, 255, 255, 1)".
+ */
+function dafr_sub_barrio_hex_to_rgba($hex, $alpha = 1) {
+  // Usuń '#' jeśli jest obecny.
+  $hex = ltrim($hex, '#');
+
+  // Jeśli kolor jest 3-znakowy, rozszerz go do 6-znakowego.
+  if (strlen($hex) == 3) {
+    $hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
+  }
+
+  // Pobierz składniki RGB.
+  list($r, $g, $b) = sscanf($hex, "%02x%02x%02x");
+
+  // Zwróć kolor w formacie RGBA.
+  return "rgba($r, $g, $b, $alpha)";
+}

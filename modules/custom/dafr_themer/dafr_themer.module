@@ -47,33 +47,21 @@ function dafr_themer_preprocess_page(&$variables) {
     $path_args = explode('/', $path);
     if ($node = \Drupal::request()->attributes->get('node')) {
       if(is_object($node)){
-         $variables['dafr_header'] = '';
-         $variables['dafr_footer'] = '';
-
-         if($node){
+          $variables['dafr_header'] = '';
+          if($node){
             if($node->hasField('dafr_header')){
                 $dafr_header = $node->get('dafr_header')->value;
                 if($dafr_header) {
                     $variables['dafr_header'] = $dafr_header;
                 }
             }                
-          
-            if($node->hasField('dafr_breadcrumb')){
-               $dafr_breadcrumb = $node->get('dafr_breadcrumb')->value;
-               if($dafr_breadcrumb && $dafr_breadcrumb == 'disable'){
-                  if(isset($variables['page']['breadcrumb'])) unset($variables['page']['breadcrumb']);
-               }
-            }  
-            
-            if($node->hasField('dafr_footer')){               
-               $dafr_footer = $node->get('dafr_footer')->value;
-               \Drupal::logger('module_themer')->notice('has footer: ' . $dafr_footer);
-               if($dafr_footer){
-                  $variables['dafr_footer'] = $dafr_footer;
-               }
-            } 
-            
-         }
+          }
+          if($node->hasField('dafr_breadcrumb')){
+				 	$dafr_breadcrumb = $node->get('dafr_breadcrumb')->value;
+				 	if($dafr_breadcrumb && $dafr_breadcrumb == 'disable'){
+						if(isset($variables['page']['breadcrumb'])) unset($variables['page']['breadcrumb']);
+				 	}
+			  	}  
        }
     }
 }

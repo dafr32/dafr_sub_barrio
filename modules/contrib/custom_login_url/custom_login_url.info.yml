@@ -1,0 +1,12 @@
+name: Custom Login Url
+type: module
+description: 'Back office custom url Security'
+core_version_requirement: ^9 || ^10
+package: Security
+dependencies:
+  - drupal:user
+
+# Information added by Drupal.org packaging script on 2023-05-17
+version: '2.0.0'
+project: 'custom_login_url'
+datestamp: 1684330646

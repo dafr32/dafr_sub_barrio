@@ -1,0 +1,270 @@
+<?php
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\entity\EntityFormDisplay;
+use Drupal\entity\EntityViewDisplay;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Symfony\Component\Yaml\Yaml;
+use Drupal\node\Entity\NodeType;
+
+/**
+ * Implements hook_install().
+ */
+function dafr_paragraph_components_install() {
+    include_once __DIR__ . '/dafr_paragraph_components.definitions.inc';
+
+    // Sprawdzenie, czy globalne zmienne są dostępne.
+    if (!is_array($field_definitions) || !is_array($paragraph_definitions)) {
+        throw new \Exception('Field definitions or paragraph definitions are not properly defined.');
+    }
+
+    // Iteracja przez definicje paragrafów.
+    foreach ($paragraph_definitions as $id => $config) {
+        // Tworzenie lub załadowanie typu paragrafu.
+        $paragraph_type = \Drupal\paragraphs\Entity\ParagraphsType::create([                
+                'id' => $id,
+                'label' => $config['label'],
+                'description' => $config['description'],
+        ]);
+        $paragraph_type->save();
+        
+
+        // Iteracja przez pola i tworzenie wymaganych konfiguracji.
+        foreach ($config['fields'] as $field_name) {
+            if (isset($field_definitions[$field_name])) {
+                $field = $field_definitions[$field_name];
+            
+                // Dodanie pola 'body' do paragrafu 'banner', jeśli nie istnieje.
+                if (!\Drupal::service('entity_type.manager')->getStorage('field_storage_config')->load('paragraph.'.$field_name)) {
+                    \Drupal::service('entity_type.manager')->getStorage('field_storage_config')->create([
+                        'field_name' => $field_name,
+                        'entity_type' => 'paragraph',
+                        'type' => $field['type'],
+                        'settings' => $field['settings'],
+                    ])->save();
+                }
+                
+                // \Drupal::service('entity_type.manager')->getStorage('field_config')->create([
+                //     'field_name' => $field_name,
+                //     'entity_type' => 'paragraph',
+                //     'bundle' => $id,
+                //     'label' => $field['label'],
+                // ])->save();
+
+                $field_config = \Drupal::service('entity_type.manager')->getStorage('field_config')->create([
+                    'field_name' => $field_name,
+                    'entity_type' => 'paragraph',
+                    'bundle' => $id,
+                    'label' => $field['label'],
+                ]);
+
+                // Ustawienie wartości domyślnej, jeśli istnieje.
+                if (isset($field['default_value'])) {
+                    $field_config->set('default_value', $field['default_value']);
+                }
+
+                $field_config->save();
+
+                // Włączanie pól w formularzu i wyświetlaniu.
+                $form_display = \Drupal::service('entity_display.repository')->getFormDisplay('paragraph', $id, 'default');
+                if ($form_display) {
+                    $form_display->setComponent($field_name, [                        
+                        'weight' => 0,
+                    ])->save();
+                }
+
+                $view_display = \Drupal::service('entity_display.repository')->getViewDisplay('paragraph', $id, 'default');
+                if ($view_display) {
+                    $view_display->setComponent($field_name, [
+                        'label' => 'hidden',                        
+                        'weight' => 0,
+                    ])->save();
+                }
+
+            }
+        }        
+    }
+
+
+    // // Ścieżka do niestandardowego folderu z konfiguracjami   
+    $config_directory = __DIR__ . '/config/custom';
+
+    // Sprawdzanie, czy katalog istnieje
+    if (is_dir($config_directory)) {
+        \Drupal::logger('header_skin')->notice('Katalog konfiguracyjny istnieje: ' . $config_directory);
+        
+        // Pobranie wszystkich plików .yml z folderu
+        $files = \Drupal::service('file_system')->scanDirectory($config_directory, '/\.yml$/');
+        \Drupal::logger('header_skin')->notice('Znaleziono pliki YAML: ' . count($files));
+
+        foreach ($files as $file) {
+            // Ścieżka do pliku
+            $file_path = $config_directory . '/' . $file->filename;
+            
+            // Logowanie ścieżki pliku
+            \Drupal::logger('header_skin')->notice('Przetwarzanie pliku: ' . $file_path);
+
+            // Załadowanie pliku YAML do konfiguracji
+            try {
+                $config_data = \Symfony\Component\Yaml\Yaml::parseFile($file_path);
+                \Drupal::logger('header_skin')->notice('Załadowano dane z pliku: ' . $file_path);
+            } catch (\Exception $e) {
+                // Logowanie błędu w przypadku niepowodzenia
+                \Drupal::logger('header_skin')->error('Błąd przy ładowaniu pliku ' . $file_path . ': ' . $e->getMessage());
+                continue; // Kontynuujemy z kolejnymi plikami, jeśli wystąpił błąd
+            }
+
+            // Zapisanie danych w konfiguracji
+            try {
+                $config_service = \Drupal::service('config.factory')->getEditable($file->name);
+                $config_service->setData($config_data)->save();
+                \Drupal::logger('header_skin')->notice('Zapisano dane do konfiguracji: ' . $file->name);
+            } catch (\Exception $e) {
+                // Logowanie błędu w przypadku niepowodzenia zapisu
+                \Drupal::logger('header_skin')->error('Błąd przy zapisie do konfiguracji ' . $file->name . ': ' . $e->getMessage());
+            }
+        }
+    } else {
+        \Drupal::logger('header_skin')->error('Katalog konfiguracyjny nie istnieje: ' . $config_directory);
+    }
+    dafr_paragraph_components_install_landing_page();
+}
+
+
+function dafr_paragraph_components_install_landing_page() {
+    $content_type = 'landing_page';
+    $field_name = 'field_component';
+
+    // Tworzenie typu treści 'Landing Page', jeśli nie istnieje.
+    if (!NodeType::load($content_type)) {
+        $node_type = \Drupal\node\Entity\NodeType::create([
+            'type' => $content_type,
+            'name' => 'Landing Page',
+        ]);
+        $node_type->save();
+    }
+
+    // Tworzenie definicji storage pola, jeśli nie istnieje.
+    if (!FieldStorageConfig::loadByName('node', $field_name)) {
+        FieldStorageConfig::create([
+            'field_name' => $field_name,
+            'entity_type' => 'node',
+            'type' => 'entity_reference_revisions',
+            'settings' => [
+                'target_type' => 'paragraph', // Referencja do encji 'paragraph'.
+            ],
+        ])->save();
+    }
+
+    // Dodawanie pola do typu treści 'Landing Page', jeśli nie istnieje.
+    if (!FieldConfig::loadByName('node', $content_type, $field_name)) {
+        FieldConfig::create([
+            'field_name' => $field_name,
+            'entity_type' => 'node',
+            'bundle' => $content_type,
+            'label' => 'Component',
+            'settings' => [
+                'handler' => 'default', // Domyślny handler dla Entity Reference.
+                'handler_settings' => [
+                    // Puste 'target_bundles' oznacza, że pole będzie akceptować wszystkie typy akapitów.
+                    'target_bundles' => [],
+                ],
+            ],
+        ])->save();
+    }
+
+    // Set the form display to use 'Layout Paragraphs'.
+    $form_display = \Drupal::service('entity_display.repository')->getFormDisplay('node',$content_type ,'default');
+    if ($form_display) {
+        $form_display->setComponent($field_name, [
+            'type' => 'layout_paragraphs',
+        ]);
+        $form_display->save();
+    }
+
+    // Set the view display to use the appropriate format.
+    $view_display = \Drupal::service('entity_display.repository')->getViewDisplay('node', $content_type, 'default');
+    if ($view_display) {    
+        $view_display->setComponent($field_name, [
+            'label' => 'hidden', 
+            'type' => 'layout_paragraphs',
+        ]);
+        $view_display->save();
+    }
+    
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function dafr_paragraph_components_uninstall() {
+    include_once __DIR__ . '/dafr_paragraph_components.definitions.inc';
+
+    // Sprawdzenie, czy globalne zmienne są dostępne.
+    if (!is_array($field_definitions) || !is_array($paragraph_definitions)) {
+        throw new \Exception('Field definitions or paragraph definitions are not properly defined.');
+    }
+   
+
+    // Iteracja przez typy paragrafów.
+  // Iteracja przez definicje paragrafów.
+    foreach ($paragraph_definitions as $id => $config) {
+        
+        foreach ($config['fields'] as $field_name) {
+
+            
+            $field_config = \Drupal::service('entity_type.manager')->getStorage('field_config')->load('paragraph.' . $id . '.' . $field_name);
+            $field_storage = \Drupal::service('entity_type.manager')->getStorage('field_storage_config')->load('paragraph.' . $field_name);
+
+            if ($field_config) {
+                $field_config->delete();
+            }
+
+            if ($field_storage && count($field_storage->getBundles()) === 1) {
+                // Usuń dane związane z polem przed usunięciem konfiguracji tabel.
+                if (\Drupal::database()->schema()->tableExists('paragraph__' . $field_name)) {
+                    \Drupal::database()->delete('paragraph__' . $field_name)->execute();
+                }
+                if (\Drupal::database()->schema()->tableExists('paragraph_revision__' . $field_name)) {
+                    \Drupal::database()->delete('paragraph_revision__' . $field_name)->execute();
+                }
+                $field_storage->delete();
+            }
+            
+   
+        }        
+
+        // Usunięcie typu paragrafu.
+        $paragraph_type = \Drupal::service('entity_type.manager')->getStorage('paragraphs_type')->load($id);
+        if ($paragraph_type) {
+            $paragraph_type->delete();
+        }    
+        $paragraph_type_config = \Drupal::configFactory()->getEditable('core.entity_form_display.paragraph.'. $id .'.default');
+        if ($paragraph_type_config) {
+            $paragraph_type_config->delete();
+        }        
+    }
+
+    // landing Page 
+    // Nazwa pola do usunięcia.
+    $field_name = 'field_component';
+
+    // Typ treści, z którego chcemy usunąć pole.
+    $content_type = 'landing_page';
+
+    // Usuń pole z typu treści.
+    if ($field_config = FieldConfig::loadByName('node', $content_type, $field_name)) {
+        $field_config->delete();
+    }
+
+    // Usuń definicję storage pola.
+    if ($field_storage = FieldStorageConfig::loadByName('node', $field_name)) {
+        $field_storage->delete();
+    }
+
+    // Opcjonalnie: usuń typ treści 'Landing Page'.
+    $node_type = \Drupal\node\Entity\NodeType::load('landing_page');
+    if ($node_type) {
+        $node_type->delete();
+    }
+}

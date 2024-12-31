@@ -76,15 +76,22 @@ rellax:
   js:
     libraries/rellax/rellax.min.js: {}
 
+parallax:
+  js:
+    libraries/parallax/parallax.min.js: {}
+  dependencies:
+    - core/jquery    
+
 ytplayer:
   js:
     libraries/ytplayer/jquery.mb.YTPlayer.min.js: {}
+  css:
+    theme:
+      libraries/ytplayer/jquery.mb.YTPlayer.min.css: {}
 
-views-infinite-scroll:
-  version: VERSION
+popup:  
   js:
-    libraries/override/infinite-scroll.js : {}
-  dependencies:
-    - core/jquery
-    - core/drupal
-    - core/drupal.debounce
+    libraries/popup/jquery.magnific-popup.min.js : {}
+  css:
+    theme:
+      libraries/popup/magnific-popup.css: {}

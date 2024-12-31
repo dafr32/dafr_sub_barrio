@@ -1,0 +1,250 @@
+uuid: c3d8763a-d3d6-4e2c-9774-a9d8bba70c88
+langcode: pl
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.paragraph_text.field_align
+    - field.field.paragraph.paragraph_text.field_animate
+    - field.field.paragraph.paragraph_text.field_animate_delay
+    - field.field.paragraph.paragraph_text.field_animate_duration
+    - field.field.paragraph.paragraph_text.field_body
+    - field.field.paragraph.paragraph_text.field_classes
+    - field.field.paragraph.paragraph_text.field_id
+    - field.field.paragraph.paragraph_text.field_mb
+    - field.field.paragraph.paragraph_text.field_ml
+    - field.field.paragraph.paragraph_text.field_mr
+    - field.field.paragraph.paragraph_text.field_mt
+    - field.field.paragraph.paragraph_text.field_pb
+    - field.field.paragraph.paragraph_text.field_pl
+    - field.field.paragraph.paragraph_text.field_pr
+    - field.field.paragraph.paragraph_text.field_pt
+    - field.field.paragraph.paragraph_text.field_valign
+    - paragraphs.paragraphs_type.paragraph_text
+  module:
+    - field_group
+    - text
+third_party_settings:
+  field_group:
+    group_margins_and_paddings:
+      children:
+        - group_margins
+        - group_paddings
+      label: 'Margins and paddings'
+      region: content
+      parent_name: ''
+      weight: 3
+      format_type: fieldset
+      format_settings:
+        classes: 'paragraph-group mt'
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
+    group_margins:
+      children:
+        - field_mt
+        - field_mb
+        - field_ml
+        - field_mr
+      label: ''
+      region: content
+      parent_name: group_margins_and_paddings
+      weight: 20
+      format_type: fieldset
+      format_settings:
+        classes: paragraph-margins
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
+    group_paddings:
+      children:
+        - field_pt
+        - field_pb
+        - field_pl
+        - field_pr
+      label: ''
+      region: content
+      parent_name: group_margins_and_paddings
+      weight: 25
+      format_type: fieldset
+      format_settings:
+        classes: paragraph-paddings
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
+    group_animate:
+      children:
+        - field_animate
+        - field_animate_duration
+        - field_animate_delay
+      label: Animacje
+      region: content
+      parent_name: ''
+      weight: 5
+      format_type: fieldset
+      format_settings:
+        classes: 'paragraph-group group-flex my'
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
+    group_layout:
+      children:
+        - field_id
+        - field_classes
+      label: 'Custom ID and class styles'
+      region: content
+      parent_name: ''
+      weight: 4
+      format_type: fieldset
+      format_settings:
+        classes: 'paragraph-group group-flex my-2'
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
+    group_wyrownanie_tekstu:
+      children:
+        - field_align
+        - field_valign
+      label: Ustawienia
+      region: content
+      parent_name: ''
+      weight: 2
+      format_type: fieldset
+      format_settings:
+        classes: 'paragraph-group flex-left p2'
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
+_core:
+  default_config_hash: xtnIAXXI_TXZDjGw6cOkBpaIPnwTMuqUnLFTqZoHv_0
+id: paragraph.paragraph_text.default
+targetEntityType: paragraph
+bundle: paragraph_text
+mode: default
+content:
+  field_align:
+    type: options_select
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_animate:
+    type: options_select
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_animate_delay:
+    type: number
+    weight: 4
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_animate_duration:
+    type: number
+    weight: 3
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_body:
+    type: text_textarea
+    weight: 0
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_classes:
+    type: string_textfield
+    weight: 6
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_id:
+    type: string_textfield
+    weight: 5
+    region: content
+    settings:
+      size: 40
+      placeholder: ''
+    third_party_settings: {  }
+  field_mb:
+    type: number
+    weight: 22
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_ml:
+    type: number
+    weight: 23
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_mr:
+    type: number
+    weight: 24
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_mt:
+    type: number
+    weight: 21
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_pb:
+    type: number
+    weight: 27
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_pl:
+    type: number
+    weight: 28
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_pr:
+    type: number
+    weight: 29
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_pt:
+    type: number
+    weight: 26
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_valign:
+    type: options_select
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

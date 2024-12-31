@@ -5,6 +5,18 @@ description: component for block Dafr block Banner
 props:
   type: object
   properties:
+    subtitle:
+        # A human-readable name.
+        title: Title
+    title:
+      # A human-readable name.
+      title: Title
+    title2:
+      # A human-readable name.
+      title: Title 2
+    title_span:
+      # A human-readable name.
+      title: span Title
     container:
       type: string
       title: container
@@ -25,9 +37,30 @@ props:
       title: bg_image
       description: The URL for the image.      
       format: uri      
+    bg_video:
+      type: string
+      title: bg_video
+      description: The URL for the image.      
+      format: uri    
+    bg_type:
+      type: string
+      title: bg_type
     parallax:
       type: string
       title: parallax
-
+    animation_s:
+      type: string
+      title: animation_s
+    animation_dur:
+        type: string
+        title: animation_dur
+    animation_del:
+        type: string
+        title: animation_del
+slots: 
+  content:
+    # A human-readable name.
+    title: Content
+  
 
   

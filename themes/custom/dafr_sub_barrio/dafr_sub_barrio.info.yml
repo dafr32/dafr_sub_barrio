@@ -1,8 +1,8 @@
-name: Dafr Subtheme Barrio
+name: DAFR - Subtheme Barrio
 type: theme
-description: 'Basic structure for a Bootstrap Barrio SubTheme.'
+description: 'Custom DAFR theme for Bootstrap Barrio.'
 core: 8.x
-core_version_requirement: ^8 || ^9 || ^10
+core_version_requirement: ^8 || ^9 || ^10 || ^11
 base theme: bootstrap_barrio
 
 libraries:
@@ -11,7 +11,9 @@ libraries:
   - dafr_sub_barrio/aos
   - dafr_sub_barrio/owl_carousel
   - dafr_sub_barrio/rellax
+  - dafr_sub_barrio/parallax
   - dafr_sub_barrio/ytplayer
+  - dafr_sub_barrio/popup
 
 libraries-override:
   blazy_photoswipe/load: dafr_sub_barrio/blazy_photoswipe_override  

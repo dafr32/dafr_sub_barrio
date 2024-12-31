@@ -1,0 +1,21 @@
+uuid: null
+langcode: pl
+status: true
+dependencies:
+  content:
+    - 'file:file:79b9763b-029f-45e7-9715-e697f3e40e4c'
+  module:
+    - layout_paragraphs
+id: paragraph_section
+label: Sekcja
+icon_uuid: 79b9763b-029f-45e7-9715-e697f3e40e4c
+icon_default: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IS0tIFVwbG9hZGVkIHRvOiBTVkcgUmVwbywgd3d3LnN2Z3JlcG8uY29tLCBHZW5lcmF0b3I6IFNWRyBSZXBvIE1peGVyIFRvb2xzIC0tPgo8c3ZnIGZpbGw9IiMwMDAwMDAiIHdpZHRoPSI4MDBweCIgaGVpZ2h0PSI4MDBweCIgdmlld0JveD0iMCAwIDI0IDI0IiBpZD0iZGF0YWJhc2UtMiIgZGF0YS1uYW1lPSJGbGF0IENvbG9yIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJpY29uIGZsYXQtY29sb3IiPjxwYXRoIGlkPSJwcmltYXJ5IiBkPSJNMjIsOFY0YTIsMiwwLDAsMC0yLTJINEEyLDIsMCwwLDAsMiw0VjhBMSwxLDAsMCwwLDMsOWExLDEsMCwwLDAtMSwxdjRhMSwxLDAsMCwwLDEsMSwxLDEsMCwwLDAtMSwxdjRhMiwyLDAsMCwwLDIsMkgyMGEyLDIsMCwwLDAsMi0yVjE2YTEsMSwwLDAsMC0xLTEsMSwxLDAsMCwwLDEtMVYxMGExLDEsMCwwLDAtMS0xQTEsMSwwLDAsMCwyMiw4WiIgc3R5bGU9ImZpbGw6IHJnYigwLCAwLCAwKTsiPjwvcGF0aD48cmVjdCBpZD0ic2Vjb25kYXJ5IiB4PSIyIiB5PSI5IiB3aWR0aD0iMjAiIGhlaWdodD0iNiIgcng9IjEiIHN0eWxlPSJmaWxsOiByZ2IoNDQsIDE2OSwgMTg4KTsiPjwvcmVjdD48L3N2Zz4='
+description: ''
+behavior_plugins:
+  layout_paragraphs:
+    enabled: true
+    available_layouts:
+      layout_onecol: 'One column'
+      layout_twocol_section: 'Two column'
+      layout_threecol_section: 'Three column'
+      layout_fourcol_section: 'Four column'

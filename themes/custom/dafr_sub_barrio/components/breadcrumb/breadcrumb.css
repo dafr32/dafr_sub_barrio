@@ -61,6 +61,9 @@
   color: #e5e5e5;
 }
 
+.breadcrumb-style {
+  background-size: cover;
+}
 
 body.hidden-breadcrumbs .breadcrumb-links {
   display: none !important;
